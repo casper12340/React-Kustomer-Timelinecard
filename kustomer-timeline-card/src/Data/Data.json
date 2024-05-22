@@ -1,0 +1,13 @@
+{   
+    "customer":{
+        "name":"Peter",
+        "last_name":"Pan",
+        "City":"Den Bosch",
+        "Street":""
+    },
+    "ordernummer":106456987,
+    "status":"Shipped",
+    "created_at":"4-2-2023 at 9:08",
+    "updated_at":"15-5-2024 at 11:43",
+    "latest_warhouse_status":"Waiting for PostNL"
+}

@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+#orderInfo{
+  background-color:#f2f2f2;
+  padding-left:20px;
+  padding-bottom:10px;
+  margin-top:-30px;
+  
+}
+#OrderInfoTitle{
+  font-size:25px;
+}
+#OrderInfoHeadingRow{
+  background-color:#BFBFBF;
+  margin-left: -20px;
+  padding-left: 20px;
+  padding-bottom: -40px !important;
+}
+
+/* CSS code to create 2 columns in the header of 'Order Info.js' */
+.column {
+  float: left;
+  width: 50%;
+  margin-bottom: -10px;
+}.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
