@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import OrderInfo from './Order Info/Order Info';
+import BasicInfo from './Basic Info/Basic Info';
 import reportWebVitals from './reportWebVitals';
 import jsonData from "/Users/casper.dekeijzer/Documents/react-folder/kustomer-timeline-card/src/Data/Data.json";
 
@@ -35,7 +35,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <p>{huts}</p>
-    <OrderInfo data={jsonData} />
+    <BasicInfo data={jsonData} />
     <App />
   </React.StrictMode>
 );
