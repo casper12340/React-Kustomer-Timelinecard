@@ -6,7 +6,7 @@ import BasicInfo from './Basic Info/Basic Info';
 import OrderInfo from './Order Info/Order Info';
 import reportWebVitals from './reportWebVitals';
 import jsonData from "/Users/casper.dekeijzer/Documents/react-folder/kustomer-timeline-card/src/Data/Data.json";
-import { json } from 'express';
+
 
 
 

@@ -38,5 +38,7 @@ code {
   display: table;
   clear: both;
 }
-
+.orderInfo{
+  padding-left: 20px;
+}
 
