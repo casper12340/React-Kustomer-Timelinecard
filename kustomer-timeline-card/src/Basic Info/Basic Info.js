@@ -16,7 +16,13 @@ export default function BasicInfo(props) {
 
       <div className="row">
         <div className="column">
-          <h3>Basis informatie</h3>
+          <h3>Factuur gegevens</h3>
+            {/* <p><b>Adres</b></p> */}
+            <div style={{lineHeight:'8px'}}>
+                <p>{props.data.customer.street} {props.data.customer.number},</p>
+                <p>{props.data.customer.city} {props.data.customer.zip}</p>
+            </div>
+          <h3>Verzend gegevens</h3>
           <ul>
             <li>Adres gegevens</li>
             <li>Betaal gegevens</li>

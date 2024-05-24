@@ -30,6 +30,7 @@ code {
 
 /* CSS code to create 2 columns in the header of 'Order Info.js' */
 .column {
+  padding-top:20px;
   float: left;
   width: 50%;
   margin-bottom: -10px;

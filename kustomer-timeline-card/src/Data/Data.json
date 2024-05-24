@@ -2,9 +2,10 @@
     "customer":{
         "name":"Peter",
         "last_name":"Pan",
-        "City":"Den Bosch",
-        "Street":"straatnaam 158",
-        "Zip":"4896QJ"
+        "city":"Den Bosch",
+        "street":"Ruwekampweg",
+        "number":"158",
+        "zip":"4896QJ"
     },
     "ordernummer":106456987,
     "status":"Shipped",

@@ -42,6 +42,7 @@ const KustomerComponent = () => {
       {/* <BasicInfo data={jsonData} /> */}
       <App />
       <OrderInfo data={jsonData} />
+
     </React.StrictMode>
   );
 };
