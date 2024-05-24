@@ -1,0 +1,14 @@
+.fourColumns{
+    flex: 1; /* Each column takes up an equal amount of space */
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+}
+.container {
+    display: flex; /* Use Flexbox */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 20px; /* Add some space between columns */
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+

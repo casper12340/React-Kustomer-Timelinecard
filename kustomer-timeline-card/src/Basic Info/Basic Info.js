@@ -1,44 +1,37 @@
 import React from 'react';
 
-export default function BasicInfo (props) {
+export default function BasicInfo(props) {
+  // Accessing data from props
+  console.log(props); // Accessing data from props
+//   console.log(props.data2); // Accessing data from props2
 
-// let datum = new Date()
-return(
-    
+  return (
     <div id="basicInfo">
-
-        <div id="basicInfoHeadingRow" class="row">
-            <div class="column">
-                <p id="basicInfoTitle">Bestelling <b>#{props.data.ordernummer}</b></p>
-            </div>
-
-            <div class="column">
-                <p id="basicInfoTitle">Status: <b>{props.data.status}</b></p>
-            </div>
+      <div id="basicInfoHeadingRow" className="row">
+        <div className="column">
+          <p id="basicInfoTitle">Bestelling <b>#{props.data.ordernummer}</b></p>
         </div>
 
-        <div class="row">
-            <div class="column">
-                <h3>Order informatie</h3>
-                <ul>
-                    <li>Adres gegevens</li>
-                    <li>Betaal gegevens</li>
-                </ul>
-            </div>
+        <div className="column">
+          <p id="basicInfoTitle">Status: <b>{props.data.status}</b></p>
+        </div>
+      </div>
 
-            <div class="column">
-                <p><b>Created at:</b> {props.data.created_at}</p>
-                <p><b>Updated at:</b> {props.data.updated_at}</p>
-
-                {/* <p><b>Updated at:</b>{datum}</p> */}
-
-            </div>
+      <div className="row">
+        <div className="column">
+          <h3>Order informatie</h3>
+          <ul>
+            <li>Adres gegevens</li>
+            <li>Betaal gegevens</li>
+          </ul>
         </div>
 
-
-
-
-        <p></p>
+        <div className="column">
+          <p><b>Created at:</b> {props.data2.huts ? (props.data2.huts.customContext.currentUser.createdAt) : "Kustomer Data Not Available"}</p>
+          <p><b>Updated at:</b> {props.data.updated_at}</p>
+        </div>
+      </div>
+      <p></p>
     </div>
-)
+  );
 }

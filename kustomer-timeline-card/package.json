@@ -5,8 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@kustomer/apps-client": "^3.0.3",
-    "@kustomer/apps-react-client": "^3.0.3",
+    "@kustomer/apps-client": "^3.0.4",
+    "@kustomer/apps-react-client": "^3.0.4",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.17",
     "@testing-library/jest-dom": "^5.17.0",

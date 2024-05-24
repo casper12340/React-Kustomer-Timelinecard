@@ -13,7 +13,7 @@ code {
 }
 #basicInfo{
   background-color:#f2f2f2;
-  padding-left:20px;
+  padding-left:24px;
   padding-bottom:10px;
   margin-top:-30px;
   
@@ -23,8 +23,8 @@ code {
 }
 #basicInfoHeadingRow{
   background-color:#BFBFBF;
-  margin-left: -20px;
-  padding-left: 20px;
+  margin-left: -24px;
+  padding-left: 24px;
   padding-bottom: -40px !important;
 }
 
@@ -37,8 +37,5 @@ code {
   content: "";
   display: table;
   clear: both;
-}
-.orderInfo{
-  padding-left: 20px;
 }
 
