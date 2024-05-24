@@ -1,9 +1,6 @@
 import React from 'react';
 
 export default function BasicInfo(props) {
-  // Accessing data from props
-  console.log(props); // Accessing data from props
-//   console.log(props.data2); // Accessing data from props2
 
   return (
     <div id="basicInfo">
@@ -19,7 +16,7 @@ export default function BasicInfo(props) {
 
       <div className="row">
         <div className="column">
-          <h3>Order informatie</h3>
+          <h3>Basis informatie</h3>
           <ul>
             <li>Adres gegevens</li>
             <li>Betaal gegevens</li>
@@ -27,8 +24,9 @@ export default function BasicInfo(props) {
         </div>
 
         <div className="column">
-          <p><b>Created at:</b> {props.data2.huts ? (props.data2.huts.customContext.currentUser.createdAt) : "Kustomer Data Not Available"}</p>
-          <p><b>Updated at:</b> {props.data.updated_at}</p>
+          <p><b>Aangemaakt op:</b> {props.data2.huts ? (props.data2.huts.customContext.currentUser.createdAt) : "Kustomer Data Not Available"}</p>
+          <p><b>Geüpdatet op:</b> {props.data.updated_at}</p>
+          <p><b>Naam:</b> {props.data2.huts ? (props.data2.huts.customContext.currentUser.displayName) : "Kustomer Data Not Available"}</p>
         </div>
       </div>
       <p></p>

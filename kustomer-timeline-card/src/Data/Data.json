@@ -14,14 +14,17 @@
     "items":[
         {"product_name":"Roze Ketting met bloemetjes",
         "mj_number":"MJ10515",
-        "price":"15,99"
+        "price":"15,99",
+        "quantity":"2"
         },
         {"product_name":"Paarse broek",
         "mj_number":"MJ95478",
+        "quantity":"1",
         "price":"35,95"
         },
         {"product_name":"Groene trui",
         "mj_number":"MJ47856",
+        "quantity":"1",
         "price":"23,99"
         }
 

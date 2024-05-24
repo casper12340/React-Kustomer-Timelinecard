@@ -33,7 +33,6 @@ const KustomerComponent = () => {
         console.error('Error initializing Kustomer:', error);
       });
   }, []);
-      console.log(huts ? huts.customContext : "nothing")
   return (
     <React.StrictMode>
       {/* <p>{huts ? JSON.stringify(huts.customContext.currentUser.createdAt) : 'Initializing Kustomer...'}</p> */}
