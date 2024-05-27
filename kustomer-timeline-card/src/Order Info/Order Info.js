@@ -40,7 +40,7 @@ export default function OrderInfo (props) {
         ))}
       </div>
       <div className="fourColumns" >
-        <h3>Kosten per product</h3>
+        <h3>Totaal</h3>
         {rowTotals.map((total, index) => (
           <p key={index}>€ {total.toFixed(2).replace('.', ',')}</p>
         ))}
