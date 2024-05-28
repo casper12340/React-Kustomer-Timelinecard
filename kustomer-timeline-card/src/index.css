@@ -40,3 +40,49 @@ code {
   clear: both;
 }
 
+
+
+/* CSS for Basic Info */
+.address{
+  line-height: 8px;
+  margin-left: 15px;
+}
+
+
+/* CSS for Order Info */
+.fourColumns {
+  flex: 1; /* Each column takes up an equal amount of space */
+  background-color: #f0f0f0;
+  padding: 0px 20px 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.container {
+  display: flex; /* Use Flexbox */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 20px; /* Add some space between columns */
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+
+#csoButton{
+  background-color: #d66598;
+  padding: 10px 10px 10px 10px;
+  border-radius: 6px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 24px;
+}

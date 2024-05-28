@@ -10,42 +10,50 @@ export default function OrderInfo (props) {
     const rowTotal = item.quantity * price;
     return rowTotal;
   });
+
+  function csoColumn () {
+    console.log("huts")
+  }
   
   
 
     return(
-      <div className="container">
-      <div className="fourColumns">
-        <h3>Product Naam</h3>
-        {props.data.items.map((item, index) => (
-          <p key={index}>{item.product_name}</p>
-        ))}
+      <div>
+        <div className="container">
+        <div className="fourColumns">
+          <h3><u>Product Naam</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index}>{item.product_name}</p>
+          ))}
+        </div>
+        <div className="fourColumns">
+          <h3><u>MJ Nummer</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index}>{item.mj_number}</p>
+          ))}
+        </div>
+        <div className="fourColumns" style={{maxWidth:"60px"}}>
+          <h3 className="center"><u>Prijs</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index} className="center">€ {item.price}</p>
+          ))}
+        </div>
+        <div className="fourColumns" style={{maxWidth:"60px"}}>
+          <h3 className="center"><u>Aantal</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index} className="center">{item.quantity}</p>
+          ))}
+        </div>
+        <div className="fourColumns" >
+          <h3><u>Totaal</u></h3>
+          {rowTotals.map((total, index) => (
+            <p key={index}>€ {total.toFixed(2).replace('.', ',')}</p>
+          ))}
+        </div>
       </div>
-      <div className="fourColumns">
-        <h3>MJ Nummer</h3>
-        {props.data.items.map((item, index) => (
-          <p key={index}>{item.mj_number}</p>
-        ))}
-      </div>
-      <div className="fourColumns" style={{maxWidth:"60px"}}>
-        <h3 className="center">Prijs</h3>
-        {props.data.items.map((item, index) => (
-          <p key={index} className="center">€ {item.price}</p>
-        ))}
-      </div>
-      <div className="fourColumns" style={{maxWidth:"60px"}}>
-        <h3 className="center">Aantal</h3>
-        {props.data.items.map((item, index) => (
-          <p key={index} className="center">{item.quantity}</p>
-        ))}
-      </div>
-      <div className="fourColumns" >
-        <h3>Totaal</h3>
-        {rowTotals.map((total, index) => (
-          <p key={index}>€ {total.toFixed(2).replace('.', ',')}</p>
-        ))}
-      </div>
+      {props.data.status === "Delivered" && (
+        <button id='csoButton' onClick={csoColumn}>CSO Aanmaken</button>
+      )}
     </div>
-    
     )
 }
