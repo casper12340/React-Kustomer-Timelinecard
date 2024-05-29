@@ -13,5 +13,8 @@
     "@kustomer/apps-client": "^3.0.3",
     "@kustomer/apps-react-client": "^3.0.3",
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
   }
 }
