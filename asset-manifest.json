@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-kustomer-timelinecard/static/css/main.08d28075.css",
+    "main.js": "/react-kustomer-timelinecard/static/js/main.49f9884d.js",
+    "static/js/453.93169920.chunk.js": "/react-kustomer-timelinecard/static/js/453.93169920.chunk.js",
+    "index.html": "/react-kustomer-timelinecard/index.html",
+    "main.08d28075.css.map": "/react-kustomer-timelinecard/static/css/main.08d28075.css.map",
+    "main.49f9884d.js.map": "/react-kustomer-timelinecard/static/js/main.49f9884d.js.map",
+    "453.93169920.chunk.js.map": "/react-kustomer-timelinecard/static/js/453.93169920.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.08d28075.css",
+    "static/js/main.49f9884d.js"
+  ]
+}
