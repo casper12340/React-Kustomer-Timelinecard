@@ -1,4 +1,5 @@
 import React from 'react';
+// import ReactDOM from 'react-dom/client';
 import './Order Info.css'
 
 export default function OrderInfo (props) {
@@ -12,10 +13,16 @@ export default function OrderInfo (props) {
   });
 
   function csoColumn () {
-    console.log("huts")
+    const container = document.getElementById('csoDiv');
+    if (container){
+      container.style.display = 'block'
+    }
   }
   
   
+
+
+
 
     return(
       <div>
@@ -49,6 +56,13 @@ export default function OrderInfo (props) {
           {rowTotals.map((total, index) => (
             <p key={index}>€ {total.toFixed(2).replace('.', ',')}</p>
           ))}
+        </div>
+        <div className="fourColumns" id="csoDiv" style={{display:'None'}}>
+          {props.data.items.map((item, index) => (
+              
+              <input id={`number-${index}`} type="number" min="0" max={item.quantity} defaultValue="0" /> 
+
+            ))}
         </div>
       </div>
       {props.data.status === "Delivered" && (
