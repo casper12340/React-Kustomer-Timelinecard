@@ -1,45 +1,73 @@
 import React from 'react';
-
+// import ReactDOM from 'react-dom/client';
+import './Order Info.css'
 
 export default function OrderInfo (props) {
 
-// let datum = new Date()
-return(
-    
-    <div id="orderInfo">
+  const rowTotals = props.data.items.map(item => {
+    // Replace comma with dot and parse the price to float
+    const price = parseFloat(item.price.replace(',', '.'));
+    // Calculate the total for this row
+    const rowTotal = item.quantity * price;
+    return rowTotal;
+  });
 
-        <div id="OrderInfoHeadingRow" class="row">
-            <div class="column">
-                <p id="OrderInfoTitle">Bestelling <b>#{props.data.ordernummer}</b></p>
-            </div>
+  function csoColumn () {
+    const container = document.getElementById('csoDiv');
+    if (container){
+      container.style.display = 'block'
+    }
+  }
+  
+  
 
-            <div class="column">
-                <p id="OrderInfoTitle">Status: <b>{props.data.status}</b></p>
-            </div>
+
+
+
+    return(
+      <div>
+        <div className="container">
+        <div className="fourColumns">
+          <h3><u>Product Naam</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index}>{item.product_name}</p>
+          ))}
         </div>
-
-        <div class="row">
-            <div class="column">
-                <h3>Order informatie</h3>
-                <ul>
-                    <li>Adres gegevens</li>
-                    <li>Betaal gegevens</li>
-                </ul>
-            </div>
-
-            <div class="column">
-                <p><b>Created at:</b> {props.data.created_at}</p>
-                <p><b>Updated at:</b> {props.data.updated_at}</p>
-
-                {/* <p><b>Updated at:</b>{datum}</p> */}
-
-            </div>
+        <div className="fourColumns">
+          <h3><u>MJ Nummer</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index}>{item.mj_number}</p>
+          ))}
         </div>
+        <div className="fourColumns" style={{maxWidth:"60px"}}>
+          <h3 className="center"><u>Prijs</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index} className="center">€ {item.price}</p>
+          ))}
+        </div>
+        <div className="fourColumns" style={{maxWidth:"60px"}}>
+          <h3 className="center"><u>Aantal</u></h3>
+          {props.data.items.map((item, index) => (
+            <p key={index} className="center">{item.quantity}</p>
+          ))}
+        </div>
+        <div className="fourColumns" >
+          <h3><u>Totaal</u></h3>
+          {rowTotals.map((total, index) => (
+            <p key={index}>€ {total.toFixed(2).replace('.', ',')}</p>
+          ))}
+        </div>
+        <div className="fourColumns" id="csoDiv" style={{display:'None'}}>
+          {props.data.items.map((item, index) => (
+              
+              <input id={`number-${index}`} type="number" min="0" max={item.quantity} defaultValue="0" /> 
 
-
-
-
-        <p></p>
+            ))}
+        </div>
+      </div>
+      {props.data.status === "Delivered" && (
+        <button id='csoButton' onClick={csoColumn}>CSO Aanmaken</button>
+      )}
     </div>
-)
+    )
 }

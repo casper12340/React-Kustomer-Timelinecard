@@ -6,6 +6,11 @@ export default function Delivered(){
 
 
 return(
-    <h3>Bezorg informatie:</h3>
+    <div>
+        <h3>Bezorg informatie:</h3>
+
+        
+    
+    </div>
 );
 };
