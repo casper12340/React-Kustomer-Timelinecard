@@ -5,8 +5,14 @@ export default function BasicInfo(props) {
   if (!props.data2 || !props.data2.huts) {
     return null; // Do not render anything if props.data2.huts is not present
   }
-const kobject = props.data2.huts.customContext.kobject;
-let state = kobject.custom.stateStr;
+  
+  const kobject = props.data2.huts.customContext.kobject;
+  let state = kobject.custom.stateStr;
+
+  if (props.paazlUrl !== "undefined" && state === 'processing') {
+    // Set status to 'shipped'
+    state = 'shipped';
+  }
 const statusMap = {
   "pending": "Pending",
   "processing": "Preparing Shipment",
@@ -30,9 +36,6 @@ let status = statusMap[state] || state; // Default to the original state if not 
       `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}:${padToTwoDigits(dateObject.getUTCSeconds())}`;
       return formattedDateTime}
 
-
-
-  console.log(props)
   return (
     <div id="basicInfo">
       <div id="basicInfoHeadingRow" className="row">

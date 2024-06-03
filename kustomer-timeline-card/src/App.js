@@ -11,10 +11,11 @@ const App = (props) => {
   }
 
   let huts = props.data2.huts
+  let tt = props.data2.paazlUrl
   return (
     <div>
 
-      <Tabs data2={{huts}}/>
+      <Tabs data2={{huts}} paazlUrl={tt}/>
     </div>
   );
 };

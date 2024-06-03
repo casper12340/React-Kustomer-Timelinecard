@@ -139,7 +139,6 @@ export default function OrderInfo(props) {
 
 
       </div>
-      {console.log(filteredItems)}
       {filteredItems.length > 0 && (
         <button id='csoButton' onClick={csoColumn}>CSO Aanmaken</button>
       )}

@@ -35,27 +35,23 @@ const KustomerComponent = () => {
         console.error('Error initializing Kustomer:', error);
       });
   }, []);
-  // console.log(huts ? (huts) : "Kustomer Data Not Available")
 
-  const [tt, setTT] = useState()
+  const [tt, setTT] = useState("undefined")
   function paazlStatus (url){
-    // trackAndTrace = url;
     setTT(url)
   };
 
-
+  console.log(tt)
 
   return (
     <React.StrictMode>
-      {/* <p>{huts ? JSON.stringify(huts.customContext.currentUser.createdAt) : 'Initializing Kustomer...'}</p> */}
-      {/* <p>{JSON.stringify(huts.data.type)}</p> */}
-      <SetPaazlStatus paazlStatus={paazlStatus}/>
+      
+      <SetPaazlStatus paazlStatus={paazlStatus} data2={{huts}}/>
       <p>{tt}</p>
-      <BasicInfo data={jsonData} data2={{huts}}/>
+      <BasicInfo data={jsonData} data2={{huts}} paazlUrl={tt}/>
 
-      {/* <BasicInfo data={jsonData} /> */}
-      <App data2={{huts}}/>
-      <OrderInfo data={jsonData} data2={{huts}}/>
+      <App data2={{huts}} paazlUrl={tt}/>
+      <OrderInfo data={jsonData} data2={{huts}} paazlUrl={tt}/>
 
     </React.StrictMode>
   );

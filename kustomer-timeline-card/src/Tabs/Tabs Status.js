@@ -12,9 +12,14 @@ import Delivered from './4. Delivered/Delivered Tab';
 
 
 export default function Tabs(props) {
-    
+
     // let status = jsonData.status
     let state = props.data2.huts.customContext.kobject.custom.statusStr;
+
+    if (props.paazlUrl !== "undefined" && state === 'processing') {
+       // Set status to 'shipped'
+        state = 'shipped';
+    }
     const statusMap = {
       "new": "Pending",
       "pending": "Pending",
@@ -23,8 +28,8 @@ export default function Tabs(props) {
       "delivered": "Delivered"
     };
     
-    let status = statusMap[state] || state; // Default to the original state if not found in the map
-
+    
+    let status = statusMap[state] || state;
     const [value, setValue] = React.useState(status);
     
     const handleChange = (event, newValue) => {
@@ -48,6 +53,8 @@ export default function Tabs(props) {
         "Shipped": ["Delivered"],
         "Delivered": []
     };
+
+
 
     return (       
         <Box sx={{ width: '100%', typography: 'body1' }}>
