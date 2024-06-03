@@ -16,6 +16,7 @@ code {
   padding-left:24px;
   padding-bottom:10px;
   margin-top:-30px;
+  color:black;
   
 }
 #basicInfoTitle{
@@ -26,6 +27,7 @@ code {
   margin-left: -24px;
   padding-left: 24px;
   padding-bottom: -40px !important;
+  color: black;
 }
 
 /* CSS code to create 2 columns in the header of 'Order Info.js' */
@@ -55,24 +57,35 @@ code {
   background-color: #f0f0f0;
   padding: 0px 20px 10px 20px;
   border-radius: 8px;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   margin-bottom: 20px;
+  height:100%;
+  /* justify-content: space-between; */
+}
+.fourColumnsTotal {
+  flex: 1; /* Each column takes up an equal amount of space */
+  background-color: #f0f0f0;
+  padding: 0px 20px 10px 20px;
+  border-radius: 8px;
+  /* display: flex; */
+  flex-direction: column;
+  margin-bottom: 20px;
+  height:100%;
+  /* justify-content: space-between; */
 }
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
 }
 
 .container {
   display: flex; /* Use Flexbox */
   flex-wrap: wrap; /* Allow items to wrap to the next line */
   gap: 20px; /* Add some space between columns */
-  padding-left: 24px;
-  padding-right: 24px;
+  color:black
 }
 
 
@@ -85,4 +98,29 @@ code {
   font-size: 16px;
   cursor: pointer;
   margin-left: 24px;
+  margin-bottom: 10px;
+}
+
+#noMarginBottom{
+  margin-bottom:0px;
+  margin-top: 10px;
+}
+#noMarginTop{
+  margin-top:0px;
+  color: #f0f0f0;
+  margin-bottom:0px;
+}
+
+.divider {
+  border-top: 1px solid black;
+  margin-top: 10px; /* Adjust margin as needed */
+  margin-bottom: 5px; /* Adjust margin as needed */
+}
+.paragraph-wrapper {
+  width: 100%; /* Adjust the width as needed */
+}
+.paragraph-wrapper p {
+  display: inline-block; /* Display paragraphs inline */
+  width: 50%; /* Adjust width as needed */
+  margin: 0;
 }

@@ -5,12 +5,16 @@ import Tabs from './Tabs/Tabs Status'
 
 
 
-const App = () => {
+const App = (props) => {
+  if (!props.data2 || !props.data2.huts) {
+    return null; // Do not render anything if props.data2.huts is not present
+  }
 
+  let huts = props.data2.huts
   return (
     <div>
 
-      <Tabs/>
+      <Tabs data2={{huts}}/>
     </div>
   );
 };

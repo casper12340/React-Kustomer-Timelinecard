@@ -4,7 +4,6 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
 import './Tabs.css';
-import jsonData from "/Users/casper.dekeijzer/Documents/react-folder/kustomer-timeline-card/src/Data/Data.json";
 import Pending from "./1. Pending/Pending Tab"
 import Preparing from './2. Preparing Shipment/Preparing Shipment Tab';
 import Shipped from './3. Shipped/Shipped Tab';
@@ -12,9 +11,19 @@ import Delivered from './4. Delivered/Delivered Tab';
 
 
 
-export default function Tabs() {
-    let status = jsonData.status
-
+export default function Tabs(props) {
+    
+    // let status = jsonData.status
+    let state = props.data2.huts.customContext.kobject.custom.statusStr;
+    const statusMap = {
+      "new": "Pending",
+      "pending": "Pending",
+      "processing": "Preparing Shipment",
+      "shipped": "Shipped",
+      "delivered": "Delivered"
+    };
+    
+    let status = statusMap[state] || state; // Default to the original state if not found in the map
 
     const [value, setValue] = React.useState(status);
     

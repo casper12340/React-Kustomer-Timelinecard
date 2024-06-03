@@ -2,48 +2,77 @@ import React from 'react';
 
 
 export default function BasicInfo(props) {
+  if (!props.data2 || !props.data2.huts) {
+    return null; // Do not render anything if props.data2.huts is not present
+  }
+const kobject = props.data2.huts.customContext.kobject;
+let state = kobject.custom.stateStr;
+const statusMap = {
+  "pending": "Pending",
+  "processing": "Preparing Shipment",
+  "shipped": "Shipped",
+  "delivered": "Delivered"
+};
 
+let status = statusMap[state] || state; // Default to the original state if not found in the map
+
+
+  function changeDate (date){
+    // Parse the original date string to a Date object
+    const dateObject = new Date(date);
+
+    // Function to format numbers to two digits
+    const padToTwoDigits = (num) => String(num).padStart(2, '0');
+
+    // Format the Date object to the desired string format
+    const formattedDateTime = 
+      `${padToTwoDigits(dateObject.getUTCDate())}-${padToTwoDigits(dateObject.getUTCMonth() + 1)}-${dateObject.getUTCFullYear()} ` +
+      `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}:${padToTwoDigits(dateObject.getUTCSeconds())}`;
+      return formattedDateTime}
+
+
+
+  console.log(props)
   return (
     <div id="basicInfo">
       <div id="basicInfoHeadingRow" className="row">
         <div className="column">
-          <p id="basicInfoTitle">Bestelling <b>#{props.data.ordernummer}</b></p>
+          <p id="basicInfoTitle">Bestelling <b>#{kobject.custom.incrementIdStr}</b></p>
         </div>
-
         <div className="column">
-          <p id="basicInfoTitle">Status: <b>{props.data.status}</b></p>
+          <p id="basicInfoTitle">Status: <b>{status}</b></p>
         </div>
       </div>
-
       <div className="row">
-        <div className="column">
-          <h3>Verzend gegevens</h3>
-            {/* <p><b>Adres</b></p> */}
-            <div class="address" >
-                <p>{props.data.customer.street} {props.data.customer.number},</p>
-                <p>{props.data.customer.city} {props.data.customer.zip}</p>
-            </div>
-          <h3>Verzend gegevens</h3>
-          <ul>
-            <li>Adres gegevens</li>
-            <li>Betaal gegevens</li>
-          </ul>
-        </div>
 
+        {/* Column Links */}
         <div className="column">
-        <h3>Factuur gegevens</h3>
+          <p style={{marginBottom:'2px'}}><b>Aangemaakt op:</b></p>
+          <p style={{marginTop:'0px'}}>{changeDate(kobject.createdAt)}</p>
+          <p style={{marginBottom:'2px', fontSize:'18px'}}><b>Verzendgegevens</b></p>
+          <div className="address" >
+            <p style={{marginTop:'8px'}}>{kobject.custom.shippingStreetStr},</p>
+            <p>{kobject.custom.shippingCityStr} {kobject.custom.shippingZipStr}</p>
+          </div>
+          <div>
+            <p style={{marginBottom:'2px'}}><b>Verzendmethode</b></p>
+            <p style={{marginTop:'0px'}}>{kobject.data.shipping_description} - € {(kobject.data.shipping_incl_tax).toFixed(2).replace('.', ',')}</p>
+          </div>
+        </div>
+        {/* Column Rechts */}
+        <div className="column">
+          <p style={{marginBottom:'2px'}}><b>Geüpdatet op:</b></p>
+          <p style={{marginTop:'0px'}}>{changeDate(kobject.updatedAt)}</p>
+          <p style={{marginBottom:'2px', fontSize:'18px'}}><b>Factuurgegevens</b></p>
             <div className="address" >
-                <p>{props.data.customer.street} {props.data.customer.number},</p>
-                <p>{props.data.customer.city} {props.data.customer.zip}</p>
+              <p style={{marginTop:'8px'}}>{kobject.custom.billingStreetStr},</p>
+              <p>{kobject.custom.billingCityStr} {kobject.custom.billingZipStr}</p>
             </div>
 
-
-          <p><b>Aangemaakt op:</b> {props.data2.huts ? (props.data2.huts.customContext.currentUser.createdAt) : "Kustomer Data Not Available"}</p>
-          <p><b>Geüpdatet op:</b> {props.data.updated_at}</p>
-          <p><b>Naam:</b> {props.data2.huts ? (props.data2.huts.customContext.currentUser.displayName) : "Kustomer Data Not Available"}</p>
+            <p style={{marginBottom:'2px'}}><b>Betaalmethode:</b></p>
+            <p style={{marginTop:'0px'}}>{kobject.data.payment.method}</p>
+          </div>
         </div>
-      </div>
-      <p></p>
     </div>
   );
 }
