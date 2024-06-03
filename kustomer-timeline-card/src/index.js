@@ -36,7 +36,7 @@ const KustomerComponent = () => {
       });
   }, []);
 
-  const [tt, setTT] = useState("undefined")
+  const [tt, setTT] = useState(null)
   function paazlStatus (url){
     setTT(url)
   };
@@ -47,7 +47,6 @@ const KustomerComponent = () => {
     <React.StrictMode>
       
       <SetPaazlStatus paazlStatus={paazlStatus} data2={{huts}}/>
-      <p>{tt}</p>
       <BasicInfo data={jsonData} data2={{huts}} paazlUrl={tt}/>
 
       <App data2={{huts}} paazlUrl={tt}/>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -9,17 +9,14 @@ import Preparing from './2. Preparing Shipment/Preparing Shipment Tab';
 import Shipped from './3. Shipped/Shipped Tab';
 import Delivered from './4. Delivered/Delivered Tab';
 
-
-
 export default function Tabs(props) {
-
-    // let status = jsonData.status
     let state = props.data2.huts.customContext.kobject.custom.statusStr;
-
-    if (props.paazlUrl !== "undefined" && state === 'processing') {
+    
+    if (props.paazlUrl && state === 'processing') {
        // Set status to 'shipped'
         state = 'shipped';
     }
+
     const statusMap = {
       "new": "Pending",
       "pending": "Pending",
@@ -28,20 +25,19 @@ export default function Tabs(props) {
       "delivered": "Delivered"
     };
     
-    
     let status = statusMap[state] || state;
+
     const [value, setValue] = React.useState(status);
-    
+
+    useEffect(() => {
+        setValue(status);
+    }, [status]);
+
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
 
     // Button background and text colors
-    // const pendingColors = {"Pending":["#0F9ED5", "white"], "Preparing Shipment":["#C1E5F5","black"], "Shipped":["#C1E5F5","black"], "Delivered":["#C1E5F5","black"]}
-    // const preparingColors = {"Pending":["white","black"], "Preparing Shipment":["#A02B93","white"], "Shipped":["#F2CFEE","black"], "Delivered":["#F2CFEE","black"]}
-    // const shippedColors = {"Pending":["white","black"], "Preparing Shipment":["white","black"], "Shipped":["#4EA72E", "white"], "Delivered":["#D9F2D0","black"]}
-    // const deliveredColors = {"Pending":["white","black"], "Preparing Shipment":["white","black"], "Shipped":["white","black"], "Delivered":["#E97132", "white"]}
-
     const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"]}
     const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"]}
     const shippedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"]}
@@ -53,8 +49,6 @@ export default function Tabs(props) {
         "Shipped": ["Delivered"],
         "Delivered": []
     };
-
-
 
     return (       
         <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -74,23 +68,16 @@ export default function Tabs(props) {
 
                 <TabPanel value="Preparing Shipment">
                     <Preparing />
-                    
                 </TabPanel>
                 
                 <TabPanel value="Shipped">
-                    <Shipped />
-                    
+                    <Shipped paazlUrl={props.paazlUrl}/>
                 </TabPanel>
 
                 <TabPanel value="Delivered">
                     <Delivered />
-                    
                 </TabPanel>
-
             </TabContext>
         </Box>
-
-
-        
     );
 }

@@ -9,17 +9,17 @@ export default function BasicInfo(props) {
   const kobject = props.data2.huts.customContext.kobject;
   let state = kobject.custom.stateStr;
 
-  if (props.paazlUrl !== "undefined" && state === 'processing') {
+  if (props.paazlUrl && state === 'processing') {
     // Set status to 'shipped'
     state = 'shipped';
   }
-const statusMap = {
-  "pending": "Pending",
-  "processing": "Preparing Shipment",
-  "shipped": "Shipped",
-  "delivered": "Delivered"
-};
-
+  const statusMap = {
+    "new": "Pending",
+    "pending": "Pending",
+    "processing": "Preparing Shipment",
+    "shipped": "Shipped",
+    "delivered": "Delivered"
+  };
 let status = statusMap[state] || state; // Default to the original state if not found in the map
 
 

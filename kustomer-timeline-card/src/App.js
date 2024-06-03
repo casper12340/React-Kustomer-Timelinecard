@@ -11,7 +11,7 @@ const App = (props) => {
   }
 
   let huts = props.data2.huts
-  let tt = props.data2.paazlUrl
+  let tt = props.paazlUrl
   return (
     <div>
 

@@ -19,7 +19,8 @@ export default function SetPaazlStatus(props) {
       redirect: "follow"
     };
 
-    fetch(`https://api.paazl.com/v1/orders/${props.data2.huts.customContext.kobject.data.increment_id}/shipments`, requestOptions)
+    // fetch(`https://api.paazl.com/v1/orders/${props.data2.huts.customContext.kobject.data.increment_id}/shipments`, requestOptions)
+    fetch(`https://api.paazl.com/v1/orders/116636524/shipments`, requestOptions)
       .then(response => {
         if (response.status === 200) {
           return response.json();  // Parse response as JSON
