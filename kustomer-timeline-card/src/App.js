@@ -15,7 +15,7 @@ const App = (props) => {
   return (
     <div>
 
-      <Tabs data2={{huts}} paazlUrl={tt}/>
+      <Tabs data2={{huts}} paazlUrl={tt} setDeliveredStatus={props.setDeliveredStatus} delivered={props.delivered}/>
     </div>
   );
 };

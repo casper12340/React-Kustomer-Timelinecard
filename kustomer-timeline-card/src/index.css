@@ -20,6 +20,7 @@ code {
   
 }
 #basicInfoTitle{
+  padding-top: 15px;
   font-size:25px;
 }
 #basicInfoHeadingRow{
@@ -32,7 +33,7 @@ code {
 
 /* CSS code to create 2 columns in the header of 'Order Info.js' */
 .column {
-  padding-top:20px;
+  padding-top:0px;
   float: left;
   width: 50%;
   margin-bottom: -10px;
@@ -123,4 +124,12 @@ code {
   display: inline-block; /* Display paragraphs inline */
   width: 50%; /* Adjust width as needed */
   margin: 0;
+}
+
+
+
+
+.postNL{
+  margin-top:2px;
+  margin-bottom:0px;
 }

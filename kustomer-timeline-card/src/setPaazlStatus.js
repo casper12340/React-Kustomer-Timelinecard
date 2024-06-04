@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function SetPaazlStatus(props) {
   useEffect(() => {
@@ -6,8 +6,6 @@ export default function SetPaazlStatus(props) {
     if (!props || !props.data2 || !props.data2.huts || !props.data2.huts.customContext) {
       return; // Exit early if necessary props are not present
     }
-
-    console.log('huts in SetPaazlStatus:', props.data2.huts.customContext.kobject.data.increment_id);
 
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
@@ -19,8 +17,8 @@ export default function SetPaazlStatus(props) {
       redirect: "follow"
     };
 
-    // fetch(`https://api.paazl.com/v1/orders/${props.data2.huts.customContext.kobject.data.increment_id}/shipments`, requestOptions)
-    fetch(`https://api.paazl.com/v1/orders/116636524/shipments`, requestOptions)
+    fetch(`https://api.paazl.com/v1/orders/${props.data2.huts.customContext.kobject.data.increment_id}/shipments`, requestOptions)
+    // fetch(`https://api.paazl.com/v1/orders/116777182/shipments`, requestOptions)
       .then(response => {
         if (response.status === 200) {
           return response.json();  // Parse response as JSON

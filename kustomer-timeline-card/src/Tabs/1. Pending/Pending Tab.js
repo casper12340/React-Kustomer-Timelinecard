@@ -6,6 +6,9 @@ export default function Pending(){
 
 
 return(
-    <h3>Paazl adres wijzigen</h3>
+    <div>
+        {/* <h3>Paazl adres wijzigen</h3> */}
+    </div>
+    
 );
 };

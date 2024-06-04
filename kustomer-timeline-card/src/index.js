@@ -6,12 +6,12 @@ import BasicInfo from './Basic Info/Basic Info';
 import OrderInfo from './Order Info/Order Info';
 import SetPaazlStatus from './setPaazlStatus';
 import reportWebVitals from './reportWebVitals';
-import jsonData from '/Users/casper.dekeijzer/Documents/react-folder/kustomer-timeline-card/src/Data/Data.json';
 
 
 
 const KustomerComponent = () => {
   let [huts, setHuts] = useState(null);
+  
 
   useEffect(() => {
     // Define a Promise that resolves when the Kustomer initialization is complete
@@ -40,17 +40,20 @@ const KustomerComponent = () => {
   function paazlStatus (url){
     setTT(url)
   };
+  const [delivered, setDelivered] = useState(false);
+  function setDeliveredStatus(status){
+    setDelivered(status)
+  }
 
-  console.log(tt)
 
   return (
     <React.StrictMode>
       
       <SetPaazlStatus paazlStatus={paazlStatus} data2={{huts}}/>
-      <BasicInfo data={jsonData} data2={{huts}} paazlUrl={tt}/>
+      <BasicInfo data2={{huts}} paazlUrl={tt} delivered={delivered}/>
 
-      <App data2={{huts}} paazlUrl={tt}/>
-      <OrderInfo data={jsonData} data2={{huts}} paazlUrl={tt}/>
+      <App data2={{huts}} paazlUrl={tt} setDeliveredStatus={setDeliveredStatus} delivered={delivered}/>
+      <OrderInfo data2={{huts}} paazlUrl={tt}/>
 
     </React.StrictMode>
   );

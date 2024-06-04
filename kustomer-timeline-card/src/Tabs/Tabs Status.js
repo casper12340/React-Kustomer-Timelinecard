@@ -11,10 +11,12 @@ import Delivered from './4. Delivered/Delivered Tab';
 
 export default function Tabs(props) {
     let state = props.data2.huts.customContext.kobject.custom.statusStr;
-    
     if (props.paazlUrl && state === 'processing') {
        // Set status to 'shipped'
         state = 'shipped';
+    }
+    if (props.delivered && (state === "Shipped" || state === "shipped")){
+        state = "delivered"
     }
 
     const statusMap = {
@@ -22,7 +24,9 @@ export default function Tabs(props) {
       "pending": "Pending",
       "processing": "Preparing Shipment",
       "shipped": "Shipped",
-      "delivered": "Delivered"
+      "delivered": "Delivered",
+      "canceled": "Canceled",
+      "closed": "Closed"
     };
     
     let status = statusMap[state] || state;
@@ -50,33 +54,39 @@ export default function Tabs(props) {
         "Delivered": []
     };
 
+    const shouldDisplayTabs = status !== "Closed" && status !== "Canceled"; // Check if status is not "Closed" or "Canceled"
+
     return (       
         <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Pending" value="Pending" disabled={disableTabs[status].includes("Pending")} sx={{ backgroundColor: pendingColors[status][0], color:"black", fontWeight:pendingColors[status][1] }}/>
-                        <Tab label="Preparing Shipment" value="Preparing Shipment" disabled={disableTabs[status].includes("Preparing Shipment")} sx={{ backgroundColor: preparingColors[status][0], color:"black", fontWeight:preparingColors[status][1] }}/>
-                        <Tab label="Shipped" value="Shipped" disabled={disableTabs[status].includes("Shipped")} sx={{ backgroundColor: shippedColors[status][0], color:"black", fontWeight:shippedColors[status][1] }}/>
-                        <Tab label="Delivered" value="Delivered" disabled={disableTabs[status].includes("Delivered")} sx={{ backgroundColor: deliveredColors[status][0], color:"black", fontWeight:deliveredColors[status][1] }}/>
-                    </TabList>
-                </Box>
+                {shouldDisplayTabs && ( // Conditionally render the TabList and TabPanels
+                    <>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList onChange={handleChange} aria-label="lab API tabs example">
+                                <Tab label="Pending" value="Pending" disabled={disableTabs[status].includes("Pending")} sx={{ backgroundColor: pendingColors[status][0], color:"black", fontWeight:pendingColors[status][1] }}/>
+                                <Tab label="Preparing Shipment" value="Preparing Shipment" disabled={disableTabs[status].includes("Preparing Shipment")} sx={{ backgroundColor: preparingColors[status][0], color:"black", fontWeight:preparingColors[status][1] }}/>
+                                <Tab label="Shipped" value="Shipped" disabled={disableTabs[status].includes("Shipped")} sx={{ backgroundColor: shippedColors[status][0], color:"black", fontWeight:shippedColors[status][1] }}/>
+                                <Tab label="Delivered" value="Delivered" disabled={disableTabs[status].includes("Delivered")} sx={{ backgroundColor: deliveredColors[status][0], color:"black", fontWeight:deliveredColors[status][1] }}/>
+                            </TabList>
+                        </Box>
 
-                <TabPanel value="Pending">
-                    <Pending />
-                </TabPanel>
+                        <TabPanel value="Pending">
+                            <Pending />
+                        </TabPanel>
 
-                <TabPanel value="Preparing Shipment">
-                    <Preparing />
-                </TabPanel>
-                
-                <TabPanel value="Shipped">
-                    <Shipped paazlUrl={props.paazlUrl}/>
-                </TabPanel>
+                        <TabPanel value="Preparing Shipment">
+                            <Preparing />
+                        </TabPanel>
+                        
+                        <TabPanel value="Shipped">
+                            <Shipped paazlUrl={props.paazlUrl} setDeliveredStatus={props.setDeliveredStatus}/>
+                        </TabPanel>
 
-                <TabPanel value="Delivered">
-                    <Delivered />
-                </TabPanel>
+                        <TabPanel value="Delivered">
+                            <Delivered />
+                        </TabPanel>
+                    </>
+                )}
             </TabContext>
         </Box>
     );

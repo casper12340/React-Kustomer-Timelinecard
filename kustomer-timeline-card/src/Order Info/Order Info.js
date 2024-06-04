@@ -63,7 +63,7 @@ export default function OrderInfo(props) {
         <div className="fourColumns" style={{ maxWidth: "60px"}}>
           <h3 className="center"><u>Prijs</u></h3>
           {filteredItems.map((item, index) => (
-            <React.Fragment>
+            <React.Fragment key={index}>
             <p key={index} className="center" id='noMarginBottom'>€ {((item.priceNum) * 1.21).toFixed(2).replace('.', ',')}</p>
             <p id='noMarginTop'>.</p>
             </React.Fragment>

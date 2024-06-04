@@ -13,12 +13,17 @@ export default function BasicInfo(props) {
     // Set status to 'shipped'
     state = 'shipped';
   }
+  if (props.delivered && (state === "Shipped" || state === "shipped")){
+    state = "delivered"
+  }
   const statusMap = {
     "new": "Pending",
     "pending": "Pending",
     "processing": "Preparing Shipment",
     "shipped": "Shipped",
-    "delivered": "Delivered"
+    "delivered": "Delivered",
+    "canceled": "Canceled",
+    "closed": "Closed"
   };
 let status = statusMap[state] || state; // Default to the original state if not found in the map
 
@@ -33,7 +38,7 @@ let status = statusMap[state] || state; // Default to the original state if not 
     // Format the Date object to the desired string format
     const formattedDateTime = 
       `${padToTwoDigits(dateObject.getUTCDate())}-${padToTwoDigits(dateObject.getUTCMonth() + 1)}-${dateObject.getUTCFullYear()} ` +
-      `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}:${padToTwoDigits(dateObject.getUTCSeconds())}`;
+      `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}`;
       return formattedDateTime}
 
   return (
