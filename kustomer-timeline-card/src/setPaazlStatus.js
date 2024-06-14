@@ -18,7 +18,6 @@ export default function SetPaazlStatus(props) {
     };
 
     fetch(`https://api.paazl.com/v1/orders/${props.data2.huts.customContext.kobject.data.increment_id}/shipments`, requestOptions)
-    // fetch(`https://api.paazl.com/v1/orders/116777182/shipments`, requestOptions)
       .then(response => {
         if (response.status === 200) {
           return response.json();  // Parse response as JSON
@@ -27,7 +26,11 @@ export default function SetPaazlStatus(props) {
         }
       })
       .then(result => {
-        props.paazlStatus(result.shipments[0].trackingUrl);
+        if (result.shipments.length === 0 || !result.shipments[0].trackingUrl) {
+          throw new Error('No T&T present');
+        } else {
+          props.paazlStatus(result.shipments[0].trackingUrl);
+        }
       })
       .catch(error => console.error('Error:', error));
   }, [props]);  // Empty dependency array to run once on mount

@@ -6,16 +6,18 @@ export default function BasicInfo(props) {
     return null; // Do not render anything if props.data2.huts is not present
   }
   
-  const kobject = props.data2.huts.customContext.kobject;
-  let state = kobject.custom.stateStr;
-
+  let kobject = props.data2.huts.customContext.kobject
+  let state = kobject.custom.statusStr;
   if (props.paazlUrl && state === 'processing') {
-    // Set status to 'shipped'
-    state = 'shipped';
+     // Set status to 'shipped'
+      state = 'shipped';
   }
   if (props.delivered && (state === "Shipped" || state === "shipped")){
-    state = "delivered"
+      state = "delivered"
   }
+  if (props.returnData){
+    state = "returned"
+}
   const statusMap = {
     "new": "Pending",
     "pending": "Pending",
@@ -23,8 +25,10 @@ export default function BasicInfo(props) {
     "shipped": "Shipped",
     "delivered": "Delivered",
     "canceled": "Canceled",
-    "closed": "Closed"
+    "returned": "Returned",
+    "closed": "Returned"
   };
+  
 let status = statusMap[state] || state; // Default to the original state if not found in the map
 
 

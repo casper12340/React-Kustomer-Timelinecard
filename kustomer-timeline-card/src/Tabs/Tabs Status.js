@@ -4,13 +4,15 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
 import './Tabs.css';
-import Pending from "./1. Pending/Pending Tab"
+import Pending from './1. Pending/Pending Tab';
 import Preparing from './2. Preparing Shipment/Preparing Shipment Tab';
 import Shipped from './3. Shipped/Shipped Tab';
 import Delivered from './4. Delivered/Delivered Tab';
+import Returned from './5. Returned/Returned Tab';
 
 export default function Tabs(props) {
-    let state = props.data2.huts.customContext.kobject.custom.statusStr;
+    let kobject = props.data2.huts.customContext.kobject
+    let state = kobject.custom.statusStr;
     if (props.paazlUrl && state === 'processing') {
        // Set status to 'shipped'
         state = 'shipped';
@@ -18,7 +20,9 @@ export default function Tabs(props) {
     if (props.delivered && (state === "Shipped" || state === "shipped")){
         state = "delivered"
     }
-
+    if (props.returnData){
+        state = "returned"
+    }
     const statusMap = {
       "new": "Pending",
       "pending": "Pending",
@@ -26,7 +30,8 @@ export default function Tabs(props) {
       "shipped": "Shipped",
       "delivered": "Delivered",
       "canceled": "Canceled",
-      "closed": "Closed"
+      "returned": "Returned",
+      "closed": "Returned"
     };
     
     let status = statusMap[state] || state;
@@ -42,19 +47,28 @@ export default function Tabs(props) {
     };
 
     // Button background and text colors
-    const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"]}
-    const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"]}
-    const shippedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"]}
-    const deliveredColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#e3a4c0", "bold"]}
+    const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
+    const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
+    const shippedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
+    const deliveredColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#e3a4c0", "bold"], "Returned":["#fce8f1", "normal"]}
+    const returnedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Returned":["#e3a4c0", "bold"]}
 
     const disableTabs = {
         "Pending": ["Preparing Shipment", "Shipped", "Delivered"],
         "Preparing Shipment": ["Shipped", "Delivered"],
         "Shipped": ["Delivered"],
-        "Delivered": []
+        "Delivered": [],
+        "Returned":[]
     };
 
-    const shouldDisplayTabs = status !== "Closed" && status !== "Canceled"; // Check if status is not "Closed" or "Canceled"
+    // Change tab size if status === Returned
+    if (status === "Returned"){
+    const tabs = document.getElementsByClassName('MuiButtonBase-root');
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].style.width = '20%';
+    }}
+
+    const shouldDisplayTabs = status !== "Canceled"; // Check if status is not "Closed" or "Canceled"
 
     return (       
         <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -67,6 +81,7 @@ export default function Tabs(props) {
                                 <Tab label="Preparing Shipment" value="Preparing Shipment" disabled={disableTabs[status].includes("Preparing Shipment")} sx={{ backgroundColor: preparingColors[status][0], color:"black", fontWeight:preparingColors[status][1] }}/>
                                 <Tab label="Shipped" value="Shipped" disabled={disableTabs[status].includes("Shipped")} sx={{ backgroundColor: shippedColors[status][0], color:"black", fontWeight:shippedColors[status][1] }}/>
                                 <Tab label="Delivered" value="Delivered" disabled={disableTabs[status].includes("Delivered")} sx={{ backgroundColor: deliveredColors[status][0], color:"black", fontWeight:deliveredColors[status][1] }}/>
+                                {status === "Returned" && <Tab label="Returned" value="Returned" sx={{ backgroundColor: returnedColors[status][0], color:"black", fontWeight:returnedColors[status][1] }}/>}
                             </TabList>
                         </Box>
 
@@ -79,12 +94,17 @@ export default function Tabs(props) {
                         </TabPanel>
                         
                         <TabPanel value="Shipped">
-                            <Shipped paazlUrl={props.paazlUrl} setDeliveredStatus={props.setDeliveredStatus}/>
+                            <Shipped paazlUrl={props.paazlUrl} setDeliveredStatus={props.setDeliveredStatus} />
                         </TabPanel>
 
                         <TabPanel value="Delivered">
-                            <Delivered />
+                            <Delivered pickupInfo={props.pickupInfo} deliveryTime={props.deliveryTime}/>
                         </TabPanel>
+
+                        {status === "Returned" && 
+                            <TabPanel value="Returned">
+                                <Returned data2={props.data2.huts} returnData={props.returnData}/>
+                            </TabPanel>}
                     </>
                 )}
             </TabContext>

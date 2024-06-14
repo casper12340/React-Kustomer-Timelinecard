@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format, isToday, isTomorrow, parseISO } from 'date-fns';
-
+import { nl } from 'date-fns/locale';
 
 const PostNLStatus = (props) => {
 
@@ -29,8 +29,7 @@ const PostNLStatus = (props) => {
   const PackageDelivery = (start, end) => {
     const startDate = parseISO(start);
     const endDate = parseISO(end);
-    const now = new Date();
-    console.log(now)
+    // const now = new Date();
     let message = '';
   
     if (isToday(startDate)) {
@@ -38,12 +37,16 @@ const PostNLStatus = (props) => {
     } else if (isTomorrow(startDate)) {
       message = `De bestelling wordt morgen bezorgd tussen ${format(startDate, 'HH:mm')} en ${format(endDate, 'HH:mm')}.`;
     } else {
-      message = `De bestelling wordt ${format(startDate, 'EEEE')} bezorgd tussen ${format(startDate, 'HH:mm')} en ${format(endDate, 'HH:mm')}.`;
+      message = `De bestelling wordt ${format(startDate, 'EEEE', { locale: nl })} ${format(startDate, 'dd', { locale: nl })} ${format(startDate, 'MM', { locale: nl })} bezorgd tussen ${format(startDate, 'HH:mm')} en ${format(endDate, 'HH:mm')}.`;
+
     }
     return message}
 
   
-
+    function deliveryTimeFormat(dateString) {
+      const date = new Date(dateString);
+      return format(date, "d MMMM yyyy 'om' HH:mm", { locale: nl });
+    }
 
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -75,11 +78,9 @@ const PostNLStatus = (props) => {
         }
 
         const result = await response.json(); // Assuming the response is JSON
-        console.log(result)
         setData(result);
       } catch (error) {
         setError(error.message);
-        console.error('Error fetching data:', error);
       }
     };
 
@@ -91,37 +92,28 @@ const PostNLStatus = (props) => {
 
     return Object.keys(colli).map((key) => {
       const item = colli[key];
-      console.log(props)
+      
+      // Set Delivered status
       if (item.isDelivered === true){
-        props.setDeliveredStatus(true)
-        console.log("Het is bezorgd!")
+        props.setDeliveredStatus(true, item.statusPhase.message, deliveryTimeFormat(item.lastObservation))
       }
+
       return (
         <div key={key}>
-          {/* <h3>Barcode: {item.barcode}</h3>
-          <p>Identification: {item.identification}</p>
-          <p>Effective Date: {item.effectiveDate}</p>
-          <p>Description: {item.description}</p>
-          <h4>Recipient:</h4>
-          <p>Company Name: {item.recipient.names.companyName}</p>
-          <p>Street: {item.recipient.address.street}</p>
-          <p>House Number: {item.recipient.address.houseNumber}</p>
-          <p>Postal Code: {item.recipient.address.postalCode}</p>
-          <p>Town: {item.recipient.address.town}</p>
-          <p>Country: {item.recipient.address.country}</p> */}
           <p className='postNL'><b>Huidige Status PostNL</b></p>
-          <p className='postNL'> {item.statusPhase.message}</p>
-          <p className='postNL'><b>Laatste Update PostNL</b></p>
-          <p className='postNL'>{changeDate(item.lastObservation)}</p>
+          <p className='postNL'>{item.statusPhase.message}.</p>
           {!item.isDelivered ? (
         item.eta && item.eta.start && item.eta.end ? (
-          <p>{PackageDelivery(item.eta.start, item.eta.end)}</p>
+          <p className='postNL'>{PackageDelivery(item.eta.start, item.eta.end)}</p>
         ) : (
-          <p>Levertijd is nog niet bekend.</p>
+          <p className='postNL'>Levertijd is nog niet bekend.</p>
         )
       ) : (
-        <p></p>
+        null
       )}
+          <p className='postNL'><b>Laatste Update PostNL</b></p>
+          <p className='postNL'>{changeDate(item.lastObservation)}</p>
+
           {/* {item.eta.start ? <p>Wordt bezorgd tussen {changeDate(item.eta.start)} en {changeDate(item.eta.end)}</p> : <p>Levertijd is nog niet bekend.</p>} */}
           {/* Add more fields as needed */}
           </div>
@@ -142,7 +134,6 @@ const PostNLStatus = (props) => {
         data && renderColliData(data.colli)
       )}
 
-      <a href={props.paazlUrl} target="_blank" rel="noopener noreferrer" className='postNL'>{props.paazlUrl}</a>
     </div>
   );
 };

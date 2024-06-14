@@ -6,12 +6,12 @@ import BasicInfo from './Basic Info/Basic Info';
 import OrderInfo from './Order Info/Order Info';
 import SetPaazlStatus from './setPaazlStatus';
 import reportWebVitals from './reportWebVitals';
+import CheckReturn from './Check Return';
 
 
 
 const KustomerComponent = () => {
   let [huts, setHuts] = useState(null);
-  
 
   useEffect(() => {
     // Define a Promise that resolves when the Kustomer initialization is complete
@@ -40,21 +40,25 @@ const KustomerComponent = () => {
   function paazlStatus (url){
     setTT(url)
   };
+  const [returnData, setReturnData] = useState();
   const [delivered, setDelivered] = useState(false);
-  function setDeliveredStatus(status){
-    setDelivered(status)
+  const [pickupInfo, setPickupInfo] = useState();
+  const [deliveryTime, setDeliveryTime] = useState();
+  function setDeliveredStatus(status, info, time){
+    setDelivered(status);
+    setPickupInfo(info);
+    setDeliveryTime(time);
   }
 
 
   return (
     <React.StrictMode>
-      
       <SetPaazlStatus paazlStatus={paazlStatus} data2={{huts}}/>
-      <BasicInfo data2={{huts}} paazlUrl={tt} delivered={delivered}/>
+      <CheckReturn setReturnData={setReturnData} data2={{huts}}/>
+      <BasicInfo data2={{huts}} paazlUrl={tt} delivered={delivered} returnData={returnData}/>
 
-      <App data2={{huts}} paazlUrl={tt} setDeliveredStatus={setDeliveredStatus} delivered={delivered}/>
-      <OrderInfo data2={{huts}} paazlUrl={tt}/>
-
+      <App data2={{huts}} paazlUrl={tt} setDeliveredStatus={setDeliveredStatus} delivered={delivered} pickupInfo={pickupInfo} deliveryTime={deliveryTime} returnData={returnData}/>
+      <OrderInfo data2={{huts}} paazlUrl={tt} delivered={delivered}/>
     </React.StrictMode>
   );
 };

@@ -7,7 +7,6 @@ export default function OrderInfo(props) {
   const kobject = props.data2.huts.customContext.kobject;
   const items = props.data2.huts.customContext.kobject.custom.itemsObj;
   const uniqueSkus = new Set(); // To keep track of unique skuStr values
-
   // Filtering out items with duplicate skuStr values
   const filteredItems = items.filter(item => {
     if (uniqueSkus.has(item.skuStr)) {
@@ -139,7 +138,7 @@ export default function OrderInfo(props) {
 
 
       </div>
-      {filteredItems.length > 0 && (
+      {props.delivered && filteredItems.length > 0 && (
         <button id='csoButton' onClick={csoColumn}>CSO Aanmaken</button>
       )}
 
