@@ -21,11 +21,12 @@ export default function CheckReturn(props) {
         };
 
         fetch(`https://api-v2.returnless.com/2023-01/return-orders?filter[order_number]=${orderID}&include=customer,customer_address,return_order_items`, requestOptions)
+        // fetch(`https://api-v2.returnless.com/2023-01/return-orders?filter[order_number]=500125950&include=customer,customer_address,return_order_items`, requestOptions)
+        
             .then((response) => response.json())
             .then((result) => {
                 if (result.data[0]){
-                    setReturnData(result);
-                    console.log("REturn Data:", result)
+                    setReturnData(result.data[0]);
                 }
                 
             })

@@ -18,12 +18,12 @@ export default function Shipped(props) {
       ) : null}
     {paazlUrl !== 'Er is geen Track & Trace bekend' && (
         <>
-          <p className='postNL'><b>Track & Trace</b></p>
-          <a href={paazlUrl} target="_blank" rel="noopener noreferrer" className='postNL'>{paazlUrl}</a>
+          <p className='bodyItems'><b>Track & Trace</b></p>
+          <a href={paazlUrl} target="_blank" rel="noopener noreferrer" className='bodyItems'>{paazlUrl}</a>
         </>
       )}
     {paazlUrl === 'Er is geen Track & Trace bekend' && (
-        <p className='postNL'>{paazlUrl}</p>
+        <p id='bodyItems'>{paazlUrl}</p>
     )}
     </div>
   );

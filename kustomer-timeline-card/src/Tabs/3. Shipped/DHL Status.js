@@ -74,10 +74,10 @@ export default function DHLStatus(props) {
             {((trackingInfo === null) || trackingInfo.status === 404) ? (<p>Er is nog geen data beschikbaar in de Track & Trace</p>) : null }
             {trackingInfo && trackingInfo.shipments && trackingInfo.shipments[0] && (
                 <div>
-                    <p className='postNL'><b>Huidige Status DHL</b></p>
-                    <p className='postNL'>{trackingInfo.shipments[0].status.description}</p>
-                    <p className='postNL'><b>Laatste Update DHL</b></p>
-                    <p className='postNL'>{changeDate(trackingInfo.shipments[0].status.timestamp)}</p>
+                    <p className='bodyItems'><b>Huidige Status DHL</b></p>
+                    <p className='bodyItems'>{trackingInfo.shipments[0].status.description}</p>
+                    <p className='bodyItems'><b>Laatste Update DHL</b></p>
+                    <p className='bodyItems'>{changeDate(trackingInfo.shipments[0].status.timestamp)}</p>
                 </div>
             )}
         </div>

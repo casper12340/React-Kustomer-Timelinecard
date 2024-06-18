@@ -100,19 +100,19 @@ const PostNLStatus = (props) => {
 
       return (
         <div key={key}>
-          <p className='postNL'><b>Huidige Status PostNL</b></p>
-          <p className='postNL'>{item.statusPhase.message}.</p>
+          <p className='bodyItems'><b>Huidige Status PostNL</b></p>
+          <p className='bodyItems'>{item.statusPhase.message}.</p>
           {!item.isDelivered ? (
         item.eta && item.eta.start && item.eta.end ? (
-          <p className='postNL'>{PackageDelivery(item.eta.start, item.eta.end)}</p>
+          <p className='bodyItems'>{PackageDelivery(item.eta.start, item.eta.end)}</p>
         ) : (
-          <p className='postNL'>Levertijd is nog niet bekend.</p>
+          <p className='bodyItems'>Levertijd is nog niet bekend.</p>
         )
       ) : (
         null
       )}
-          <p className='postNL'><b>Laatste Update PostNL</b></p>
-          <p className='postNL'>{changeDate(item.lastObservation)}</p>
+          <p className='bodyItems'><b>Laatste Update PostNL</b></p>
+          <p className='bodyItems'>{changeDate(item.lastObservation)}</p>
 
           {/* {item.eta.start ? <p>Wordt bezorgd tussen {changeDate(item.eta.start)} en {changeDate(item.eta.end)}</p> : <p>Levertijd is nog niet bekend.</p>} */}
           {/* Add more fields as needed */}
