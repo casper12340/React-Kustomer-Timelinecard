@@ -11,8 +11,6 @@ function formatDate(date) {
 export default function Returned(props) {
     const { returnData } = props;
 
-    console.log("The return Data is: ", returnData);
-
     if (!returnData) return <p>Aan het laden...</p>;
 
     // Determine if attachments are present
@@ -23,7 +21,7 @@ export default function Returned(props) {
     return (
         <div>
             <h3 style={{marginBottom:'0px', marginTop:'2px'}}>Retour informatie:</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 {/* Left Column */}
                 <div>
                     <p className='bodyItems'><b>Type:</b></p>
@@ -47,9 +45,9 @@ export default function Returned(props) {
 
             {/* Product List */}
             <div style={{ marginTop: '20px' }}>
-                <div style={{ display: 'grid', gap: '20px' }}>
+                <div style={{ display: 'grid', gap: '10px' }}>
                     {/* Header Row */}
-                    <div style={{ display: 'grid', gridTemplateColumns: `1fr 2fr 2fr ${attachmentsPresent ? '1fr' : ''}`, gap: '20px', fontWeight: 'bold' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: `1fr 2fr 2fr ${attachmentsPresent ? '1fr' : ''}`, gap: '10px', fontWeight: 'bold' }}>
                         <div>Afbeelding</div>
                         <div>Product</div>
                         <div>Reden</div>

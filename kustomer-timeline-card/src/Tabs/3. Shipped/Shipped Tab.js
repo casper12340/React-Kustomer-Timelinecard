@@ -6,7 +6,6 @@ export default function Shipped(props) {
   // Check that props.paazlUrl is not null and not undefined
   const paazlUrl = props.paazlUrl || '';
 
-
   return (
     <div>
       <h3 style={{marginBottom:'0px', marginTop:'2px'}}>Track & Trace informatie:</h3>

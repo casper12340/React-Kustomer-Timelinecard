@@ -17,7 +17,7 @@ export default function BasicInfo(props) {
   }
   if (props.returnData){
     state = "returned"
-}
+  }
   const statusMap = {
     "new": "Pending",
     "pending": "Pending",
@@ -29,21 +29,17 @@ export default function BasicInfo(props) {
     "closed": "Returned"
   };
   
-let status = statusMap[state] || state; // Default to the original state if not found in the map
+  let status = statusMap[state] || state; // Default to the original state if not found in the map
 
 
-  function changeDate (date){
-    // Parse the original date string to a Date object
-    const dateObject = new Date(date);
 
-    // Function to format numbers to two digits
-    const padToTwoDigits = (num) => String(num).padStart(2, '0');
-
-    // Format the Date object to the desired string format
-    const formattedDateTime = 
-      `${padToTwoDigits(dateObject.getUTCDate())}-${padToTwoDigits(dateObject.getUTCMonth() + 1)}-${dateObject.getUTCFullYear()} ` +
-      `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}`;
-      return formattedDateTime}
+function changeDate (date){
+  const dateObject = new Date(date);
+  const padToTwoDigits = (num) => String(num).padStart(2, '0');
+  const formattedDateTime = 
+    `${padToTwoDigits(dateObject.getUTCDate())}-${padToTwoDigits(dateObject.getUTCMonth() + 1)}-${dateObject.getUTCFullYear()} ` +
+    `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}`;
+  return formattedDateTime}
 
   return (
     <div id="basicInfo">
@@ -58,33 +54,33 @@ let status = statusMap[state] || state; // Default to the original state if not 
       <div className="row">
 
         {/* Column Links */}
-        <div className="column">
-          <p style={{marginBottom:'2px'}}><b>Aangemaakt op:</b></p>
-          <p style={{marginTop:'0px'}}>{changeDate(kobject.createdAt)}</p>
-          <p style={{marginBottom:'2px', fontSize:'18px'}}><b>Verzendgegevens</b></p>
+      <div className="column">
+        <p style={{marginBottom:'2px'}}><b>Aangemaakt op:</b></p>
+        <p style={{marginTop:'0px'}}>{changeDate(kobject.createdAt)}</p>
+        <p style={{marginBottom:'2px', fontSize:'18px'}}><b>Verzendgegevens</b></p>
+        <div className="address" >
+          <p style={{marginTop:'8px'}}>{kobject.custom.shippingStreetStr},</p>
+          <p>{kobject.custom.shippingCityStr} {kobject.custom.shippingZipStr}</p>
+        </div>
+        <div>
+          <p style={{marginBottom:'2px'}}><b>Verzendmethode</b></p>
+          <p style={{marginTop:'0px'}}>{kobject.data.shipping_description} - € {(kobject.data.shipping_incl_tax).toFixed(2).replace('.', ',')}</p>
+        </div>
+      </div>
+      {/* Column Rechts */}
+      <div className="column">
+        <p style={{marginBottom:'2px'}}><b>Geüpdatet op:</b></p>
+        <p style={{marginTop:'0px'}}>{changeDate(kobject.updatedAt)}</p>
+        <p style={{marginBottom:'2px', fontSize:'18px'}}><b>Factuurgegevens</b></p>
           <div className="address" >
-            <p style={{marginTop:'8px'}}>{kobject.custom.shippingStreetStr},</p>
-            <p>{kobject.custom.shippingCityStr} {kobject.custom.shippingZipStr}</p>
+            <p style={{marginTop:'8px'}}>{kobject.custom.billingStreetStr},</p>
+            <p>{kobject.custom.billingCityStr} {kobject.custom.billingZipStr}</p>
           </div>
-          <div>
-            <p style={{marginBottom:'2px'}}><b>Verzendmethode</b></p>
-            <p style={{marginTop:'0px'}}>{kobject.data.shipping_description} - € {(kobject.data.shipping_incl_tax).toFixed(2).replace('.', ',')}</p>
-          </div>
-        </div>
-        {/* Column Rechts */}
-        <div className="column">
-          <p style={{marginBottom:'2px'}}><b>Geüpdatet op:</b></p>
-          <p style={{marginTop:'0px'}}>{changeDate(kobject.updatedAt)}</p>
-          <p style={{marginBottom:'2px', fontSize:'18px'}}><b>Factuurgegevens</b></p>
-            <div className="address" >
-              <p style={{marginTop:'8px'}}>{kobject.custom.billingStreetStr},</p>
-              <p>{kobject.custom.billingCityStr} {kobject.custom.billingZipStr}</p>
-            </div>
 
-            <p style={{marginBottom:'2px'}}><b>Betaalmethode:</b></p>
-            <p style={{marginTop:'0px'}}>{kobject.data.payment.method}</p>
-          </div>
+          <p style={{marginBottom:'2px'}}><b>Betaalmethode:</b></p>
+          <p style={{marginTop:'0px'}}>{kobject.data.payment.method}</p>
         </div>
+      </div>
     </div>
   );
 }

@@ -26,14 +26,14 @@ export default function SetPaazlStatus(props) {
         }
       })
       .then(result => {
-        if (result.shipments.length === 0 || !result.shipments[0].trackingUrl) {
-          throw new Error('No T&T present');
+        if (result.shipments && result.shipments.length > 0 && result.shipments[0].trackingUrl) {
+          // Check if shipments exist and if the first shipment has a trackingUrl
+          props.paazlStatus(result.shipments[0].trackingUrl); // Assuming you want the first shipment's trackingUrl
         } else {
-          props.paazlStatus(result.shipments[0].trackingUrl);
+          throw new Error('No T&T present');
         }
       })
       .catch(error => console.error('Error:', error));
   }, [props]);  // Empty dependency array to run once on mount
-
   return null;
 }

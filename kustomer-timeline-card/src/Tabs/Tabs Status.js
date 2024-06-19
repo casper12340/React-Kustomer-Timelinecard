@@ -10,7 +10,7 @@ import Shipped from './3. Shipped/Shipped Tab';
 import Delivered from './4. Delivered/Delivered Tab';
 import Returned from './5. Returned/Returned Tab';
 
-export default function Tabs(props) {
+export default function Tabs(props) {   
     let kobject = props.data2.huts.customContext.kobject
     let state = kobject.custom.statusStr;
     if (props.paazlUrl && state === 'processing') {
@@ -26,6 +26,7 @@ export default function Tabs(props) {
     const statusMap = {
       "new": "Pending",
       "pending": "Pending",
+      "payment_review": "Pending",
       "processing": "Preparing Shipment",
       "shipped": "Shipped",
       "delivered": "Delivered",
@@ -45,7 +46,7 @@ export default function Tabs(props) {
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
-
+    
     // Button background and text colors
     const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
     const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
@@ -63,9 +64,9 @@ export default function Tabs(props) {
 
     // Change tab size if status === Returned
     if (status === "Returned"){
-    const tabs = document.getElementsByClassName('MuiButtonBase-root');
-    for (let i = 0; i < tabs.length; i++) {
-        tabs[i].style.width = '20%';
+        const tabs = document.getElementsByClassName('MuiButtonBase-root');
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].style.width = '20%';
     }}
 
     const shouldDisplayTabs = status !== "Canceled"; // Check if status is not "Closed" or "Canceled"
@@ -86,7 +87,7 @@ export default function Tabs(props) {
                         </Box>
 
                         <TabPanel value="Pending">
-                            <Pending />
+                            <Pending data2={props.data2.huts}/>
                         </TabPanel>
 
                         <TabPanel value="Preparing Shipment">

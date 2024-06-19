@@ -89,9 +89,9 @@ code {
   color:black
 }
 
-
+/* CSS for the CSO Button */
 #csoButton{
-  background-color: #d66598;
+  background-color: #e3a4c0;
   padding: 10px 10px 10px 10px;
   border-radius: 6px;
   border-color: transparent;
@@ -101,6 +101,26 @@ code {
   margin-left: 24px;
   margin-bottom: 10px;
 }
+#csoButton:hover{
+  background-color:#d186a0;
+}
+input[type="number" i]{
+  pointer-events: none;
+  font-size: 16px;
+}
+/* Hides arrows in Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Hides arrows in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: f;
+}
+
+
 
 #noMarginBottom{
   margin-bottom:0px;
@@ -139,3 +159,32 @@ code {
 }
 
 
+
+
+
+/* Styling for the CSO Number Input Box */
+
+#inputContainer{
+  display: flex;
+  align-items: center;
+}
+#numberButton{
+  background-color: #e3a4c0;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 2px;
+}
+#numberButton:hover{
+  background-color: #d186a0;
+}
+#inputBox{
+  height: 22px;
+  width: 40px;
+  text-align: center;
+  margin: 0 5px;
+  border-radius: 2px;
+  border-color: transparent;
+  background-color: transparent;
+}

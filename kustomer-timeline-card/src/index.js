@@ -7,6 +7,7 @@ import OrderInfo from './Order Info/Order Info';
 import SetPaazlStatus from './setPaazlStatus';
 import reportWebVitals from './reportWebVitals';
 import CheckReturn from './Check Return';
+import CheckRequest from './Check Request/Check Request';
 
 
 
@@ -41,6 +42,7 @@ const KustomerComponent = () => {
     setTT(url)
   };
   const [returnData, setReturnData] = useState();
+  const [requestData, setRequestData] = useState();
   const [delivered, setDelivered] = useState(false);
   const [pickupInfo, setPickupInfo] = useState();
   const [deliveryTime, setDeliveryTime] = useState();
@@ -55,10 +57,11 @@ const KustomerComponent = () => {
     <React.StrictMode>
       <SetPaazlStatus paazlStatus={paazlStatus} data2={{huts}}/>
       <CheckReturn setReturnData={setReturnData} data2={{huts}}/>
+      {returnData ? console.log("jawoel") : <CheckRequest setRequestData={setRequestData} data2={{huts}} requestData={requestData}/>}
       <BasicInfo data2={{huts}} paazlUrl={tt} delivered={delivered} returnData={returnData}/>
 
-      <App data2={{huts}} paazlUrl={tt} setDeliveredStatus={setDeliveredStatus} delivered={delivered} pickupInfo={pickupInfo} deliveryTime={deliveryTime} returnData={returnData}/>
-      <OrderInfo data2={{huts}} paazlUrl={tt} delivered={delivered}/>
+      <App data2={{huts}} paazlUrl={tt} setDeliveredStatus={setDeliveredStatus} delivered={delivered} pickupInfo={pickupInfo} deliveryTime={deliveryTime} returnData={returnData} />
+      <OrderInfo data2={{huts}} paazlUrl={tt} delivered={delivered} returnData={returnData}/>
     </React.StrictMode>
   );
 };
