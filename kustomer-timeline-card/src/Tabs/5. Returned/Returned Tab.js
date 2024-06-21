@@ -12,7 +12,9 @@ export default function Returned(props) {
     const { returnData } = props;
 
     if (!returnData) return <p>Aan het laden...</p>;
-
+    if (returnData === "No return data found" || returnData.length < 1){ 
+        console.log("JDSLKDF:FJLDSFJLDSF:D")
+        return <p>Item was PNOV.</p>}
     // Determine if attachments are present
     const attachmentsPresent = returnData.includes.return_order_items.some(item => (
         item.answers && item.answers.length > 0 && item.answers.some(answer => answer.attachments && answer.attachments.length > 0)
@@ -41,7 +43,7 @@ export default function Returned(props) {
             <p className='bodyItems'><b>Return url:</b></p>
             <a href={returnData.links.panel} target="_blank" rel="noopener noreferrer">{returnData.links.panel}</a>
             {/* Conditional Button Rendering */}
-            {returnData.state === 'request' && <button style={{ marginTop: '10px' }}>Request Button</button>}
+            
 
             {/* Product List */}
             <div style={{ marginTop: '20px' }}>
@@ -70,7 +72,8 @@ export default function Returned(props) {
                                 )}
                             </div>
                             <div>
-                                <p>{item.product.name || 'Unknown Product'}</p>
+                                <p id='smallMarginBottomAndTop'>{item.product.name || 'Onbekend Item'}</p>
+                                <p style={{ color: 'gray' }} id='smallMarginBottomAndTop'>{item.product.sku || 'Onbekend MJ Nummber'}</p>
                             </div>
                             <div>
                                 <p>{item.return_reason.label || 'N/A'}</p>

@@ -9,6 +9,7 @@ import Preparing from './2. Preparing Shipment/Preparing Shipment Tab';
 import Shipped from './3. Shipped/Shipped Tab';
 import Delivered from './4. Delivered/Delivered Tab';
 import Returned from './5. Returned/Returned Tab';
+import ReturnRequest from './6. Return Request/Return Request Tab';
 
 export default function Tabs(props) {   
     let kobject = props.data2.huts.customContext.kobject
@@ -20,8 +21,13 @@ export default function Tabs(props) {
     if (props.delivered && (state === "Shipped" || state === "shipped")){
         state = "delivered"
     }
+    // State = Returned
     if (props.returnData){
+        if (props.returnData !== "No return data found"){
         state = "returned"
+    }}
+    if (kobject.data?.returnless){
+        state = 'request'
     }
     const statusMap = {
       "new": "Pending",
@@ -32,6 +38,7 @@ export default function Tabs(props) {
       "delivered": "Delivered",
       "canceled": "Canceled",
       "returned": "Returned",
+      'request': "Return Request",
       "closed": "Returned"
     };
     
@@ -48,22 +55,29 @@ export default function Tabs(props) {
     };
     
     // Button background and text colors
-    const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
-    const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
-    const shippedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"]}
-    const deliveredColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#e3a4c0", "bold"], "Returned":["#fce8f1", "normal"]}
+    const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const shippedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const deliveredColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#e3a4c0", "bold"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
     const returnedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Returned":["#e3a4c0", "bold"]}
+    const requestColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Return Request":["#e3a4c0", "bold"]}
 
     const disableTabs = {
         "Pending": ["Preparing Shipment", "Shipped", "Delivered"],
         "Preparing Shipment": ["Shipped", "Delivered"],
         "Shipped": ["Delivered"],
         "Delivered": [],
-        "Returned":[]
+        "Returned":[],
+        "Return Request":[]
     };
 
     // Change tab size if status === Returned
     if (status === "Returned"){
+        const tabs = document.getElementsByClassName('MuiButtonBase-root');
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].style.width = '20%';
+    }}
+    if (status === "Return Request"){
         const tabs = document.getElementsByClassName('MuiButtonBase-root');
         for (let i = 0; i < tabs.length; i++) {
             tabs[i].style.width = '20%';
@@ -83,6 +97,7 @@ export default function Tabs(props) {
                                 <Tab label="Shipped" value="Shipped" disabled={disableTabs[status].includes("Shipped")} sx={{ backgroundColor: shippedColors[status][0], color:"black", fontWeight:shippedColors[status][1] }}/>
                                 <Tab label="Delivered" value="Delivered" disabled={disableTabs[status].includes("Delivered")} sx={{ backgroundColor: deliveredColors[status][0], color:"black", fontWeight:deliveredColors[status][1] }}/>
                                 {status === "Returned" && <Tab label="Returned" value="Returned" sx={{ backgroundColor: returnedColors[status][0], color:"black", fontWeight:returnedColors[status][1] }}/>}
+                                {status === "Return Request" && <Tab label="Return Request" value="Return Request" sx={{ backgroundColor: requestColors[status][0], color:"black", fontWeight:requestColors[status][1] }}/>}
                             </TabList>
                         </Box>
 
@@ -106,6 +121,11 @@ export default function Tabs(props) {
                             <TabPanel value="Returned">
                                 <Returned data2={props.data2.huts} returnData={props.returnData}/>
                             </TabPanel>}
+                        
+                        {status === "Return Request" && 
+                        <TabPanel value="Return Request">
+                            <ReturnRequest data2={props.data2.huts}/>
+                        </TabPanel>}
                     </>
                 )}
             </TabContext>

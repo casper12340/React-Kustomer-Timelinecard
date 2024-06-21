@@ -104,6 +104,18 @@ code {
 #csoButton:hover{
   background-color:#d186a0;
 }
+#csoSendButton{
+  background-color: #e3a4c0;
+  padding: 5px 5px 5px 5px;
+  border-radius: 6px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+#csoSendButton:hover{
+  background-color:#d186a0;
+}
 input[type="number" i]{
   pointer-events: none;
   font-size: 16px;

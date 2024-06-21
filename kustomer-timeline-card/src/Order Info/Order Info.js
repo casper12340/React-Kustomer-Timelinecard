@@ -55,7 +55,7 @@ export default function OrderInfo(props) {
     <div>
       <div style={{ marginTop: '20px' }}>
         <div style={{ display: 'grid', gap: '0px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '1fr' : ""} 3fr `, gap: '0px', paddingLeft: '10px', fontWeight: 'bold' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '2fr' : ""} 3fr `, gap: '0px', paddingLeft: '10px', fontWeight: 'bold' }}>
             <div><h3><u>Product Naam</u></h3></div>
             <div><h3 className="center"><u>Prijs</u></h3></div>
             <div><h3 className="center"><u>Aantal</u></h3></div>
@@ -68,7 +68,7 @@ export default function OrderInfo(props) {
           </div>
 
           {filteredItems.map((item, index) => (
-            <div key={index} style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '1fr' : ""} 3fr`, alignItems: 'center', gap: '0px', paddingLeft: '10px', backgroundColor: index % 2 === 0 ? 'white' : '#f0f0f0' }}>
+            <div key={index} style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '2fr' : ""} 3fr`, alignItems: 'center', gap: '0px', paddingLeft: '10px', backgroundColor: index % 2 === 0 ? 'white' : '#f0f0f0' }}>
               <div>
                 <p id='smallMarginBottomAndTop'>{item.nameStr}</p>
                 <p style={{ color: 'gray' }} id='smallMarginBottomAndTop'>{item.skuStr}</p>
@@ -89,7 +89,7 @@ export default function OrderInfo(props) {
               </div>
             </div>
           ))}
-          <div style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '1fr' : ""} 3fr`, alignItems: 'center', gap: '0px ', paddingLeft: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '2fr' : ""} 3fr`, alignItems: 'center', gap: '0px ', paddingLeft: '10px' }}>
             <div></div>
             <div></div>
             <div></div>

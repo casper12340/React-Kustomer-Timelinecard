@@ -40,7 +40,7 @@ export default function CreateCSO(props) {
 
   return (
     <div>
-      <button onClick={createCSO}>huts</button>
+      <button onClick={createCSO} id='csoSendButton'>Verzenden</button>
       {showAlert && <CustomAlert title={alertTitle} message={alertMessage} onClose={handleCloseAlert} />}
     </div>
   );

@@ -16,18 +16,24 @@ export default function BasicInfo(props) {
       state = "delivered"
   }
   if (props.returnData){
+    if (props.returnData !== "No return data found"){
     state = "returned"
-  }
-  const statusMap = {
-    "new": "Pending",
-    "pending": "Pending",
-    "processing": "Preparing Shipment",
-    "shipped": "Shipped",
-    "delivered": "Delivered",
-    "canceled": "Canceled",
-    "returned": "Returned",
-    "closed": "Returned"
-  };
+}}
+if (kobject.data?.returnless){
+  state = 'request'
+}
+const statusMap = {
+  "new": "Pending",
+  "pending": "Pending",
+  "payment_review": "Pending",
+  "processing": "Preparing Shipment",
+  "shipped": "Shipped",
+  "delivered": "Delivered",
+  "canceled": "Canceled",
+  "returned": "Returned",
+  'request': "Return Request",
+  "closed": "Returned"
+};
   
   let status = statusMap[state] || state; // Default to the original state if not found in the map
 
