@@ -200,3 +200,60 @@ input[type="number"] {
   border-color: transparent;
   background-color: transparent;
 }
+
+
+
+
+
+
+
+/* Styling of the Image Carousel */
+.carousel .control-prev.control-arrow:before{
+  border-right: 8px solid #E3A4C0 !important;
+}
+.carousel .control-next.control-arrow:before{
+  border-left: 8px solid #E3A4C0 !important;
+}
+.carousel .control-dots .dot.selected, .carousel .control-dots .dot:hover {
+  background: #E3A4C0 !important;
+}
+.carousel .control-dots .dot {
+  background: #FCE8F1 !important
+}
+
+/* .carousel-root{
+  display:flex !important;
+  justify-content: center !important;
+  align-items: center !important;  
+  max-width: 100% !important;
+  width: 20em !important;
+} */
+
+
+
+.carousel {
+  max-width: 100% !important;
+  display: grid;
+}
+
+.carousel .slider-wrapper {
+  max-width: 100%;
+}
+
+.carousel .slider {
+  display: flex;
+  align-items: center;        /* Center items vertically */
+}
+
+.carousel .slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;              /* Ensure it takes the full height */
+}
+.carousel .thumbs-wrapper{
+  margin: 0px !important;
+}
+.carousel .thumbs-wrapper{
+  display: none;
+}

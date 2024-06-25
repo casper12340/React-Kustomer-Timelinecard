@@ -15,13 +15,14 @@ export default function BasicInfo(props) {
   if (props.delivered && (state === "Shipped" || state === "shipped")){
       state = "delivered"
   }
+  if (kobject.data?.returnless){
+    state = 'request'
+  }
   if (props.returnData){
     if (props.returnData !== "No return data found"){
     state = "returned"
 }}
-if (kobject.data?.returnless){
-  state = 'request'
-}
+
 const statusMap = {
   "new": "Pending",
   "pending": "Pending",

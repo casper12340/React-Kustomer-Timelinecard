@@ -32,6 +32,7 @@ export default function CheckReturn(props) {
                 if (result?.data?.length > 0) {
                     setReturnData(result.data[0]);
                 } else {
+                    console.log(result)
                     setReturnData("No return data found");
                 }
             })

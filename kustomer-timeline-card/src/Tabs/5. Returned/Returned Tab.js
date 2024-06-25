@@ -13,7 +13,6 @@ export default function Returned(props) {
 
     if (!returnData) return <p>Aan het laden...</p>;
     if (returnData === "No return data found" || returnData.length < 1){ 
-        console.log("JDSLKDF:FJLDSFJLDSF:D")
         return <p>Item was PNOV.</p>}
     // Determine if attachments are present
     const attachmentsPresent = returnData.includes.return_order_items.some(item => (
