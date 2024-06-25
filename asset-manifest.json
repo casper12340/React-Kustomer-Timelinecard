@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/React-Kustomer-Timelinecard/static/css/main.f203a0bf.css",
-    "main.js": "/React-Kustomer-Timelinecard/static/js/main.9cae4bd3.js",
+    "main.js": "/React-Kustomer-Timelinecard/static/js/main.9de85377.js",
     "static/js/453.93169920.chunk.js": "/React-Kustomer-Timelinecard/static/js/453.93169920.chunk.js",
     "index.html": "/React-Kustomer-Timelinecard/index.html",
     "main.f203a0bf.css.map": "/React-Kustomer-Timelinecard/static/css/main.f203a0bf.css.map",
-    "main.9cae4bd3.js.map": "/React-Kustomer-Timelinecard/static/js/main.9cae4bd3.js.map",
+    "main.9de85377.js.map": "/React-Kustomer-Timelinecard/static/js/main.9de85377.js.map",
     "453.93169920.chunk.js.map": "/React-Kustomer-Timelinecard/static/js/453.93169920.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f203a0bf.css",
-    "static/js/main.9cae4bd3.js"
+    "static/js/main.9de85377.js"
   ]
 }
