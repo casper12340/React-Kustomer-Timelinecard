@@ -40,8 +40,9 @@
 
 .modal-content button {
   padding: 10px 20px;
-  background: #007bff;
-  color: white;
+  background: #E3A4C0;
+  color: black;
+  font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -49,5 +50,5 @@
 }
 
 .modal-content button:hover {
-  background: #0056b3;
+  background: #d186a0;
 }

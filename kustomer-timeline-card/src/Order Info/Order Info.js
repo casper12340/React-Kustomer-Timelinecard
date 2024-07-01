@@ -95,7 +95,7 @@ export default function OrderInfo(props) {
             <div></div>
             {cso &&
               <div className='center'>
-                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent}/>
+                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2}/>
               </div>}
             <div id='smallMarginBottomAndTop' style={{ textAlign: 'right' }}>
               <div className="divider"></div>

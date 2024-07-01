@@ -7,7 +7,7 @@ export default function ApproveButton(props){
 
     return(
         <div>
-            <button id='csoButton' onSubmit={approveRequest}>Approve</button>
+            <button id='csoButton' onClick={approveRequest}>Approve</button>
         </div>
     )
 }
