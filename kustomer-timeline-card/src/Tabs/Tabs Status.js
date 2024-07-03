@@ -5,7 +5,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
 import './Tabs.css';
 import Pending from './1. Pending/Pending Tab';
-import Preparing from './2. Preparing Shipment/Preparing Shipment Tab';
+import Preparing from './2. Processing/Processing Tab';
 import Shipped from './3. Shipped/Shipped Tab';
 import Delivered from './4. Delivered/Delivered Tab';
 import Returned from './5. Returned/Returned Tab';
@@ -34,7 +34,7 @@ export default function Tabs(props) {
       "new": "Pending",
       "pending": "Pending",
       "payment_review": "Pending",
-      "processing": "Preparing Shipment",
+      "processing": "Processing",
       "shipped": "Shipped",
       "delivered": "Delivered",
       "canceled": "Canceled",
@@ -56,16 +56,16 @@ export default function Tabs(props) {
     };
     
     // Button background and text colors
-    const pendingColors = {"Pending":["#e3a4c0", "bold"], "Preparing Shipment":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
-    const preparingColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
-    const shippedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
-    const deliveredColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#e3a4c0", "bold"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
-    const returnedColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Returned":["#e3a4c0", "bold"]}
-    const requestColors = {"Pending":["#fff","normal"], "Preparing Shipment":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Return Request":["#e3a4c0", "bold"]}
+    const pendingColors = {"Pending":["#e3a4c0", "bold"], "Processing":["#fce8f1","normal"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const preparingColors = {"Pending":["#fff","normal"], "Processing":["#e3a4c0","bold"], "Shipped":["#fce8f1","normal"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const shippedColors = {"Pending":["#fff","normal"], "Processing":["#fff","normal"], "Shipped":["#e3a4c0", "bold"], "Delivered":["#fce8f1","normal"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const deliveredColors = {"Pending":["#fff","normal"], "Processing":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#e3a4c0", "bold"], "Returned":["#fce8f1", "normal"], "Return Request":["#fce8f1", "normal"]}
+    const returnedColors = {"Pending":["#fff","normal"], "Processing":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Returned":["#e3a4c0", "bold"]}
+    const requestColors = {"Pending":["#fff","normal"], "Processing":["#fff","normal"], "Shipped":["#fff","normal"], "Delivered":["#fff", "normal"], "Return Request":["#e3a4c0", "bold"]}
 
     const disableTabs = {
-        "Pending": ["Preparing Shipment", "Shipped", "Delivered"],
-        "Preparing Shipment": ["Shipped", "Delivered"],
+        "Pending": ["Processing", "Shipped", "Delivered"],
+        "Processing": ["Shipped", "Delivered"],
         "Shipped": ["Delivered"],
         "Delivered": [],
         "Returned":[],
@@ -94,7 +94,7 @@ export default function Tabs(props) {
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <TabList onChange={handleChange} aria-label="lab API tabs example">
                                 <Tab label="Pending" value="Pending" disabled={disableTabs[status].includes("Pending")} sx={{ backgroundColor: pendingColors[status][0], color:"black", fontWeight:pendingColors[status][1] }}/>
-                                <Tab label="Preparing Shipment" value="Preparing Shipment" disabled={disableTabs[status].includes("Preparing Shipment")} sx={{ backgroundColor: preparingColors[status][0], color:"black", fontWeight:preparingColors[status][1] }}/>
+                                <Tab label="Processing" value="Processing" disabled={disableTabs[status].includes("Processing")} sx={{ backgroundColor: preparingColors[status][0], color:"black", fontWeight:preparingColors[status][1] }}/>
                                 <Tab label="Shipped" value="Shipped" disabled={disableTabs[status].includes("Shipped")} sx={{ backgroundColor: shippedColors[status][0], color:"black", fontWeight:shippedColors[status][1] }}/>
                                 <Tab label="Delivered" value="Delivered" disabled={disableTabs[status].includes("Delivered")} sx={{ backgroundColor: deliveredColors[status][0], color:"black", fontWeight:deliveredColors[status][1] }}/>
                                 {status === "Returned" && <Tab label="Returned" value="Returned" sx={{ backgroundColor: returnedColors[status][0], color:"black", fontWeight:returnedColors[status][1] }}/>}
@@ -106,7 +106,7 @@ export default function Tabs(props) {
                             <Pending data2={props.data2.huts}/>
                         </TabPanel>
 
-                        <TabPanel value="Preparing Shipment">
+                        <TabPanel value="Processing">
                             <Preparing />
                         </TabPanel>
                         

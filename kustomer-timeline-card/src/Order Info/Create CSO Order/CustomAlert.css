@@ -23,7 +23,7 @@
   max-width: 400px;
   width: 80%;
   position: absolute; /* Change position to absolute */
-  top: 700px; /* Set top to 50px */
+  top: 600px; /* Set top to 50px */
   left: 50%;
   transform: translateX(-50%); /* Center horizontally */
 }

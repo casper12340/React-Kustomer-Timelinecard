@@ -27,7 +27,7 @@ const statusMap = {
   "new": "Pending",
   "pending": "Pending",
   "payment_review": "Pending",
-  "processing": "Preparing Shipment",
+  "processing": "Processing",
   "shipped": "Shipped",
   "delivered": "Delivered",
   "canceled": "Canceled",

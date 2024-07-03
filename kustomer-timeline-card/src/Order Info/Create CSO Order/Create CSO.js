@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CustomAlert from './CustomAlert'; // Import your custom alert component
 
 export default function CreateCSO(props) {
-  const stock = { "MJ10925-0400-XL": 9, "MJ07610-1500": 100 };
+  // const stock = { "MJ10925-0400-XL": 9, "MJ07610-1500": 100 };
   const [alertMessage, setAlertMessage] = useState({ title: '', message: '', show: false });
 
   const createCSO = () => {
@@ -31,10 +31,38 @@ export default function CreateCSO(props) {
     props.csoPresent();
   };
 
-  const checkItemStock = (sku) => {
-    // Fetch request or other logic to get stock
-    return stock[sku];
+  const checkItemStock = async (sku) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    // Add any additional headers if needed
+  
+    const raw = JSON.stringify({
+      "sku": sku // Use the sku passed into the function
+    });
+  
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+  
+    try {
+      const response = await fetch("https://europe-west3-mj-staging.cloudfunctions.net/available-stock-to-kustomer", requestOptions);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log(result)
+      return result.availableStock; // Assuming API returns the available stock
+    } catch (error) {
+      console.error("Error fetching stock:", error);
+      // Handle error scenario, possibly return a default value or throw
+      throw error;
+    }
   };
+  
 
   function createOrderBC() {
     // Implementation for creating an order
