@@ -107,7 +107,7 @@ export default function Tabs(props) {
                         </TabPanel>
 
                         <TabPanel value="Processing">
-                            <Preparing />
+                            <Preparing data2={props.data2.huts}/>
                         </TabPanel>
                         
                         <TabPanel value="Shipped">
