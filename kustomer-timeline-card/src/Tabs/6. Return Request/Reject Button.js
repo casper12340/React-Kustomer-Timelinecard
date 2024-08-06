@@ -13,7 +13,7 @@ export default function RejectButton(props){
 
     return(
         <div>
-            <button id='csoButton' onClick={rejectRequest}>Reject</button>
+            <button id='requestButton' onClick={rejectRequest}>Reject</button>
         </div>
     )
 }

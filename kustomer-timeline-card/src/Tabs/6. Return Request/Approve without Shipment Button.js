@@ -12,7 +12,7 @@ export default function ApproveWoShipment(props){
 
     return(
         <div>
-            <button id='csoButton' onClick={approveRequestWoShipment}>Approve w/o Shipment</button>
+            <button id='requestButton' onClick={approveRequestWoShipment}>Approve w/o Shipment</button>
         </div>
     )
 }

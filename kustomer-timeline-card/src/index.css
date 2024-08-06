@@ -261,7 +261,20 @@ input[type="number"] {
 
 
 
-
+/* CSS for the Request Button */
+#requestButton{
+  background-color: #e3a4c0;
+  padding: 10px 10px 10px 10px;
+  border-radius: 6px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  /* margin-bottom: 10px; */
+}
+#requestButton:hover{
+  background-color:#d186a0;
+}
 
 
 
