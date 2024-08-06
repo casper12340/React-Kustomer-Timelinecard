@@ -8,6 +8,8 @@ export default function DHLStatus(props) {
     const [trackingNumber, setTrackingNumber] = useState('');
     const [trackingInfo, setTrackingInfo] = useState(null); // State to hold the tracking info
 
+    console.log("DHL Info", trackingInfo)
+
     function changeDate(date) {
         // Parse the original date string to a Date object
         const dateObject = new Date(date);

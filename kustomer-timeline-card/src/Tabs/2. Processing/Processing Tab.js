@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function Preparing(props) {
     const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,6 +32,8 @@ export default function Preparing(props) {
                 console.log(resultData); // Log the parsed JSON result
             } catch (error) {
                 console.error('Fetch error:', error);
+            } finally {
+                setLoading(false); // Set loading to false when the fetch is complete
             }
         };
 
@@ -39,13 +42,15 @@ export default function Preparing(props) {
 
     return (
         <div>
-            {result?.files ? (
-                <>
-                    <img src={result?.files[0]?.url } alt="Packing Machine" style={{maxWidth: '100%'}}/>
-                    <p>{result?.files[0]?.message}</p>
-                </>
-            ) :  <p>Er is (nog) geen afbeelding van de inpak machine gevonden.</p>}
-
+            {loading ? (
+                <p>Aan het zoeken...</p>
+            ) : (
+                result?.files ? (
+                    <img src={"data:image/jpeg;base64,"+result?.files[0]?.url } alt="Packing Machine" style={{maxWidth: '100%'}}/>
+                ) : (
+                    <p>Er is (nog) geen afbeelding van de inpakmachine gevonden.</p>
+                )
+            )}
         </div>
     );
 }

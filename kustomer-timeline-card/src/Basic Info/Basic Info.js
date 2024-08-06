@@ -26,6 +26,7 @@ export default function BasicInfo(props) {
 const statusMap = {
   "new": "Pending",
   "pending": "Pending",
+  "pending_payment": "Pending",
   "payment_review": "Pending",
   "processing": "Processing",
   "shipped": "Shipped",

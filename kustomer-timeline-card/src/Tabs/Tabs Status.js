@@ -33,6 +33,7 @@ export default function Tabs(props) {
     const statusMap = {
       "new": "Pending",
       "pending": "Pending",
+      "pending_payment": "Pending",
       "payment_review": "Pending",
       "processing": "Processing",
       "shipped": "Shipped",

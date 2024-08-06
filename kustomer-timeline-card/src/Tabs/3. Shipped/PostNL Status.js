@@ -56,7 +56,7 @@ const PostNLStatus = (props) => {
 
         const result = await response.json();
         setData(result);
-
+        console.log("PostNL", result)
         // Check and set the delivered status after data is fetched
         if (result.colli) {
           Object.keys(result.colli).forEach((key) => {
@@ -73,6 +73,8 @@ const PostNLStatus = (props) => {
 
     fetchData();
   }, [props, newUrl]);
+
+  
 
   const renderColliData = (colli) => {
     if (!colli) return null;
