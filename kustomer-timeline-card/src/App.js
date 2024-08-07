@@ -18,7 +18,6 @@ const App = (props) => {
 
   return (
     <div>
-      <p>HEYYY</p>
       <Tabs
         data2={{ huts }}
         paazlUrl={tt}

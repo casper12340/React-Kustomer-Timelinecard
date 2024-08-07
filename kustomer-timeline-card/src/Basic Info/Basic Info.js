@@ -88,8 +88,11 @@ function changeDate (date){
 
           <p style={{marginBottom:'2px'}}><b>Betaalmethode:</b></p>
           <p style={{marginTop:'0px'}}>{kobject.data.payment.method}</p>
-          <p>internalID <b>#{kobject.id}</b></p>
-          <p>externalID <b>#{kobject.externalId}</b></p>
+
+
+          {/* Added ID and External ID of Kobject */}
+          <p><b>Internal ID:</b> #{kobject.id}</p>
+          <p><b>External ID:</b> #{kobject.externalId}</p>
         </div>
       </div>
     </div>
