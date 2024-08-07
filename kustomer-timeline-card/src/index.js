@@ -13,7 +13,6 @@ import CheckReturn from './Check Return';
 
 const KustomerComponent = () => {
   let [huts, setHuts] = useState(null);
-  console.log("testtestestkl;adjfks")
   useEffect(() => {
     // Define a Promise that resolves when the Kustomer initialization is complete
     const kustomerInitializationPromise = new Promise((resolve, reject) => {

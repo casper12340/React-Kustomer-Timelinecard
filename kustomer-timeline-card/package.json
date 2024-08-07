@@ -1,6 +1,6 @@
 {
-  "homepage": "http://casper12340.github.io/React-Kustomer-Timelinecard",
-  "name": "kustomer-timeline-card",
+  "homepage": "https://storage.googleapis.com/react-kustomer-insight-card",
+  "name": "react-kustomer-insight-card",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-gcp": "gsutil cp -r build/* gs://react-kustomer-insight-card"
+    "deploy-gcp": "gsutil -m cp -r build/* gs://react-kustomer-insight-card/"
   },
   "eslintConfig": {
     "extends": [
