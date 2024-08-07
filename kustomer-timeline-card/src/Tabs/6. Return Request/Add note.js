@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-export default function AddNote ( noteID ) {
+export default function AddNote ( noteID, id ) {
 
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer XhPeDPsNuaHf7pw2GAWNBA2HmKNuGQyRZ1ZDpm1hd0649e8c");
@@ -19,9 +19,9 @@ export default function AddNote ( noteID ) {
             body: raw,
             redirect: "follow"
           };
-        
-          return fetch("https://api-v2.returnless.com/2023-01/request-orders/returnorder_v3VBMABlgxENGtn1JLXlxKs9w/notes", requestOptions)
-            .then(response => response.text())
+        // Change this to id
+          return fetch("https://api-v2.returnless.com/2023-01/request-orders/returnorder_oo1nQE6Y2Xl77FlAgY9P9Jta0/notes", requestOptions)
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error:', error));
         }

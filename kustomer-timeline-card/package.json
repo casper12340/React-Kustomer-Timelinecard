@@ -29,7 +29,8 @@
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-gcp": "gsutil cp -r build/* gs://react-kustomer-insight-card"
   },
   "eslintConfig": {
     "extends": [
