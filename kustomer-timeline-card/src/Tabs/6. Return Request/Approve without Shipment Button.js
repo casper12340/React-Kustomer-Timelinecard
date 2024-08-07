@@ -1,4 +1,5 @@
 import React from 'react';
+import AddNote from './Add note';
 
 export default function ApproveWoShipment(props){
     function approveRequestWoShipment(){

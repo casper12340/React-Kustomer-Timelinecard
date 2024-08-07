@@ -54,6 +54,7 @@ function changeDate (date){
       <div id="basicInfoHeadingRow" className="row">
         <div className="column">
           <p id="basicInfoTitle">Bestelling <b>#{kobject.custom.incrementIdStr}</b></p>
+          
         </div>
         <div className="column">
           <p id="basicInfoTitle">Status: <b>{status}</b></p>
@@ -87,6 +88,8 @@ function changeDate (date){
 
           <p style={{marginBottom:'2px'}}><b>Betaalmethode:</b></p>
           <p style={{marginTop:'0px'}}>{kobject.data.payment.method}</p>
+          <p>internalID <b>#{kobject.id}</b></p>
+          <p>externalID <b>#{kobject.externalId}</b></p>
         </div>
       </div>
     </div>

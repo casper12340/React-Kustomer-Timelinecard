@@ -109,7 +109,7 @@ export default function ReturnRequestTab(props) {
             {/* Styling of the Bottom element */}
             <div style={{ paddingTop: '10px', borderRadius: '8px', maxWidth: '400px', margin: '0 auto' }}>
                 <div style={{ marginBottom: '10px' }}>
-                    <label htmlFor="itemDropdown" style={{ display: 'block', fontSize: '16px', marginBottom: '10px' }}>Notitie toevoegen:</label>
+                    <label htmlFor="itemDropdown" style={{ display: 'block', fontSize: '16px'}}>Notitie toevoegen:</label>
                     <select 
                         id="itemDropdown" 
                         name="itemDropdown" 
@@ -138,9 +138,9 @@ export default function ReturnRequestTab(props) {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                    <ApproveButton checked={isChecked} noteID={selectedValue} />
-                    <ApproveWoShipmentButton noteID={selectedValue} />
-                    <RejectButton noteID={selectedValue} />
+                    <ApproveButton checked={isChecked} noteID={selectedValue} id={returnless.id}/>
+                    <ApproveWoShipmentButton noteID={selectedValue} id={returnless.id}/>
+                    <RejectButton noteID={selectedValue} id={returnless.id}/>
                 </div>
             </div>
         </div>

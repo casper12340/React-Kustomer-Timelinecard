@@ -1,4 +1,5 @@
 import React from 'react';
+import AddNote from './Add note';
 
 export default function ApproveButton(props){
     function approveRequest(){
@@ -6,7 +7,12 @@ export default function ApproveButton(props){
         if (props.noteID === ''){
             alert("Selecteer een notitie.")
         }
-
+        else{
+            console.log(props.noteID)
+            // AddNote(props.noteID, props.id) 
+            AddNote(props.noteID)
+        }
+        
         // If checked == True, shipping should be free
         console.log(props.checked)
         if (props.checked){
