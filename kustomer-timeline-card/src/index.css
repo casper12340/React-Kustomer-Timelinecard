@@ -116,6 +116,24 @@ code {
 #csoSendButton:hover{
   background-color:#d186a0;
 }
+/* Disabled button styles */
+#csoSendButton:disabled {
+  background-color: #6c757d; /* Gray color for disabled state */
+  color: #fff;
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+  opacity: 0.65; /* Slightly transparent */
+  box-shadow: none; /* Remove shadow */
+}
+
+/* Remove hover effects for disabled button */
+#csoSendButton:disabled:hover {
+  background-color: #6c757d; /* Ensure background stays the same */
+  box-shadow: none; /* Ensure no shadow */
+}
+
+
+
+
 input[type="number" i]{
   pointer-events: none;
   font-size: 16px;

@@ -42,7 +42,7 @@ const PostNLStatus = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://europe-west1-mj-customer-service-tools.cloudfunctions.net/function-1", {
+        const response = await fetch("https://europe-west4-mj-customer-service-tools.cloudfunctions.net/postnl-info-to-kustomer", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -54,7 +54,8 @@ const PostNLStatus = (props) => {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
 
-        const result = await response.json();
+        let result = await response.json();
+        result = result.result
         setData(result);
         console.log("PostNL", result)
         // Check and set the delivered status after data is fetched
