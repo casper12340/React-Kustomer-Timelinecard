@@ -93,6 +93,7 @@ function changeDate (date){
           {/* Added ID and External ID of Kobject */}
           <p><b>Internal ID:</b> #{kobject.id}</p>
           <p><b>External ID:</b> #{kobject.externalId}</p>
+          <p><b>External ID 2:</b> {kobject.custom.externalId2str}</p>
         </div>
       </div>
     </div>
