@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import CustomAlert from './CustomAlert';
 import transformOrderNumber from './Transform Order Number';
-// import GetCSONumber from './Get CSO Number'
+
+
+
+import setCSONumber from './Get CSO Number'
 
 var arr = []; // Create an empty array
 
-const documentNumber = "CSO24-00020";
 
 export default function CreateCSO(props) {
   const [alertMessage, setAlertMessage] = useState({ title: '', message: '', show: false });
@@ -16,16 +18,21 @@ export default function CreateCSO(props) {
   const data = props.data2.huts.customContext;
   const customerData = data.kobject.custom;
 
-  
 
   const createCSO = async (skuToCheck = null) => {
     setLoading(true); // Set loading to true at the start
 
     try {
+
+
+
+
+
+
+
       // Filter out SKUs with zero quantity
       const skusToProcess = Object.keys(props.csoQuantities).filter(sku => props.csoQuantities[sku] !== 0);
-      console.log(skusToProcess)
-      // Start loop from the last processed index
+
       for (let i = lastProcessedIndex; i < skusToProcess.length; i++) {
         const sku = skuToCheck || skusToProcess[i];
 
@@ -54,8 +61,6 @@ export default function CreateCSO(props) {
               });
               return; // Exit early to avoid further processing
             }
-
-            console.log(stockData.available_stock);
           } catch (error) {
             // Handle error scenario, e.g., log it or show an alert
             setAlertMessage({
@@ -67,14 +72,17 @@ export default function CreateCSO(props) {
           }
 
         }
-        console.log("YES", arr);
+        console.log("The array: ", arr);
         arr.push(sku);
         // Clear skuToCheck after it's processed to allow the loop to continue normally
         skuToCheck = null;
       }
 
       // If no issues with stock, proceed to create the CSO
-      createOrderBC(arr);  // Pass all processed SKUs
+      const documentNumber = await setCSONumber()
+      console.log("Document Number", documentNumber)
+
+      createOrderBC(arr, documentNumber);  // Pass all processed SKUs
       props.csoPresent();
 
       // Set the success message after creating the CSO
@@ -132,7 +140,7 @@ export default function CreateCSO(props) {
     String(today.getMonth() + 1).padStart(2, '0') + '-' + 
     String(today.getDate()).padStart(2, '0');
 
-  const createOrderBC = (finalSkus) => {
+  const createOrderBC = (finalSkus, documentNumber) => {
     console.log("Creating CSO for SKUs:", finalSkus);
     const finalAmount = Object.values(props.csoQuantities);
     // Create the saleslines array dynamically
@@ -141,8 +149,6 @@ export default function CreateCSO(props) {
     for(let i = 0; i < finalSkus.length; i++){
       // Transform the SKU and get the resulting array
       let transformedSkuArray = transformOrderNumber(finalSkus[i]);
-      console.log(transformedSkuArray);
-
       // Check if the transformed array has at least 2 elements
       if (transformedSkuArray.length >= 2) {
         saleslines.push({
@@ -218,7 +224,6 @@ export default function CreateCSO(props) {
       "saleslines": saleslines
     });
 
-    console.log(raw);
     const url = new URL('https://sieradenbeheerapi.my-jewellery.com:7068/ACCEPT2/api/tcg/imr/v2.0/companies(762e400d-b869-ec11-be1e-000d3abee88a)/sales');
     url.searchParams.append('tenant', 'operations'); // Adding the tenant query parameter
     fetch(url, {
@@ -227,8 +232,15 @@ export default function CreateCSO(props) {
         body: raw,
         redirect: 'follow'
     })
-    .then(response => response.text())
-    .then(result => console.log(result))
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      setAlertMessage({
+        title: 'Gelukt!',
+        message: `Er is een CSO aangemaakt met nummer: ${documentNumber}.`, // Message prompting for closest match
+        show: true
+      });
+    })
     .catch(error => console.log('error', error));
   }
 
