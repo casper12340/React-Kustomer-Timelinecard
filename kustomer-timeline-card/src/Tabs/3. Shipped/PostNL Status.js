@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format, isToday, isTomorrow, parseISO } from 'date-fns';
 import { nl } from 'date-fns/locale';
 
+
 const PostNLStatus = (props) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -100,7 +101,6 @@ const PostNLStatus = (props) => {
       );
     });
   };
-
   return (
     <div>
       {error ? (
