@@ -8,7 +8,6 @@ import setCSONumber from './Get CSO Number'
 
 var arr = []; // Create an empty array
 
-
 export default function CreateCSO(props) {
   const [alertMessage, setAlertMessage] = useState({ title: '', message: '', show: false });
   const [closestMatches, setClosestMatches] = useState([]);  // Store closest matches
@@ -18,18 +17,10 @@ export default function CreateCSO(props) {
   const data = props.data2.huts.customContext;
   const customerData = data.kobject.custom;
 
-
+  
   const createCSO = async (skuToCheck = null) => {
     setLoading(true); // Set loading to true at the start
-
     try {
-
-
-
-
-
-
-
       // Filter out SKUs with zero quantity
       const skusToProcess = Object.keys(props.csoQuantities).filter(sku => props.csoQuantities[sku] !== 0);
 
@@ -72,7 +63,6 @@ export default function CreateCSO(props) {
           }
 
         }
-        console.log("The array: ", arr);
         arr.push(sku);
         // Clear skuToCheck after it's processed to allow the loop to continue normally
         skuToCheck = null;
@@ -84,13 +74,6 @@ export default function CreateCSO(props) {
 
       createOrderBC(arr, documentNumber);  // Pass all processed SKUs
       props.csoPresent();
-
-      // Set the success message after creating the CSO
-      setAlertMessage({
-        title: 'CSO Aangemaakt!',
-        message: 'Er is succesvol een CSO aangemaakt voor order #',
-        show: true
-      });
 
     } finally {
       setLoading(false); // Ensure loading is set to false after processing
@@ -140,7 +123,7 @@ export default function CreateCSO(props) {
     String(today.getMonth() + 1).padStart(2, '0') + '-' + 
     String(today.getDate()).padStart(2, '0');
 
-  const createOrderBC = (finalSkus, documentNumber) => {
+  const createOrderBC = async (finalSkus, documentNumber) => {
     console.log("Creating CSO for SKUs:", finalSkus);
     const finalAmount = Object.values(props.csoQuantities);
     // Create the saleslines array dynamically
@@ -185,6 +168,12 @@ export default function CreateCSO(props) {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", `Basic SU5URUdSQVRJT05fUFJEOm9rVjUkKmZMaEk2QFZweTExR3QzUzlDWThCV25BMkh0TkMkbnomMFk=`);
+    
+    const customerNo = {"NL":"K-000001", "BE":"K-001019", "DE":"K-001410", "FR":"K-001415", "ES":"K-001414", "AT":"K-001423", "PL":"K-001424", "PT":"K-001425", 
+      "BG":"K-001407", "CZ":"K-001408", "DK":"K-001409", "EE":"K-001411", "IE":"K-001412", "GR":"K-001413", "HR":"K-001416", "IT":"K-001417", "CY":"K-001418", 
+      "LV":"K-001419", "LT":"K-001420", "HU":"K-001421", "MT":"K-001422", "PT":"K-001425", "RO":"K-001426", "SI":"K-001427", "FI":"K-001428", "SE":"K-001429", 
+      "GB":"K-001430", "NO":"K-001431", "CH":"K-001432", "TR":"K-001433"}
+
 
     const raw = JSON.stringify({
       "documentType": "Order",
@@ -194,7 +183,7 @@ export default function CreateCSO(props) {
       "orderOrigin": "B2C",
       "requestedDeliveryDate": formattedToday,
       "orderID": documentNumber,
-      "customerNo": "K-000001",
+      "customerNo": customerNo[customerData.shippingCountryStr],
       "pspReference": "PSPREF",
       "webTransactionID": "00000000-0000-0000-0000-000000000000",
       "basketPrice": 0,
@@ -224,25 +213,25 @@ export default function CreateCSO(props) {
       "saleslines": saleslines
     });
 
-    const url = new URL('https://sieradenbeheerapi.my-jewellery.com:7068/ACCEPT2/api/tcg/imr/v2.0/companies(762e400d-b869-ec11-be1e-000d3abee88a)/sales');
-    url.searchParams.append('tenant', 'operations'); // Adding the tenant query parameter
-    fetch(url, {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    })
-    .then(response => response.json())
-    .then(result => {
-      console.log(result)
-      setAlertMessage({
-        title: 'Gelukt!',
-        message: `Er is een CSO aangemaakt met nummer: ${documentNumber}.`, // Message prompting for closest match
-        show: true
-      });
-    })
-    .catch(error => console.log('error', error));
+const url = new URL('https://sieradenbeheerapi.my-jewellery.com:7068/ACCEPT2/api/tcg/imr/v2.0/companies(762e400d-b869-ec11-be1e-000d3abee88a)/sales');
+  url.searchParams.append('tenant', 'operations');
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    });
+    const result = await response.json();
+    console.log(result);
+
+    alert(`Gelukt! Er is een CSO aangemaakt met nummer: ${documentNumber}`)
+
+  } catch (error) {
+    console.error('Error creating CSO:', error);
   }
+};
 
   const handleSelectMatch = (selectedSku) => {
     setAlertMessage({ ...alertMessage, show: false });
@@ -275,7 +264,6 @@ export default function CreateCSO(props) {
           onSelect={handleSelectMatch}  // Pass selection handler to CustomAlert
         />
       )}
-      {/* <GetCSONumber /> */}
     </div>
   );
 }
