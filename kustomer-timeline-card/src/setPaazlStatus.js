@@ -9,8 +9,9 @@ export default function SetPaazlStatus(props) {
 
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", "Bearer ndWhja9Ly9WgS2x5PdJLKvavq");
-
+    
+    myHeaders.append("Authorization", process.env.REACT_APP_PAAZL_TOKEN);
+    
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
