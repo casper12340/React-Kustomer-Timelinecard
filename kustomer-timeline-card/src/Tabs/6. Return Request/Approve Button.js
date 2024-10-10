@@ -6,7 +6,7 @@ import CustomAlert from '/Users/casper.dekeijzer/Documents/react-folder/kustomer
 export default function ApproveButton(props){
     const [alertMessage, setAlertMessage] = useState({ title: '', message: '', show: false })
 
-    function apiCall(id){
+    async function apiCall(id){
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer XhPeDPsNuaHf7pw2GAWNBA2HmKNuGQyRZ1ZDpm1hd0649e8c");
         myHeaders.append("Accept", "application/json");
@@ -18,7 +18,7 @@ export default function ApproveButton(props){
             redirect: "follow"
           };
         // Change this to id
-        return fetch("https://api-v2.returnless.com/2023-01/request-orders/returnorder_MVkrWELONdGgLh82wPKV46uok/approve", requestOptions)
+        return fetch(`https://api-v2.returnless.com/2023-01/request-orders/${id}/approve`, requestOptions)
             .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
@@ -28,6 +28,35 @@ export default function ApproveButton(props){
             .then(result => result)
             .catch(error => { throw error });
         }
+    
+    async function apiCallFreeShipping(id){
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer XhPeDPsNuaHf7pw2GAWNBA2HmKNuGQyRZ1ZDpm1hd0649e8c");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "enabled": true
+          });
+        
+          const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+          };
+        // Change this to id
+        return fetch(`https://api-v2.returnless.com/2023-01/request-orders/${id}/free-shipping`, requestOptions)
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.json();
+        })
+            .then(result => result)
+            .catch(error => { throw error });
+
+    }
     
     async function approveRequest(){
         if (props.noteID === ''){
@@ -46,6 +75,9 @@ export default function ApproveButton(props){
                     
                     console.log("Request has been approved with free shipping")
                     await apiCall(props.id);
+
+                    await apiCallFreeShipping(props.id)
+
                     setAlertMessage({
                         title: 'Gelukt!',
                         message: `Request is goedgekeurd met gratis verzending.`, // Fixed string interpolation
@@ -53,11 +85,11 @@ export default function ApproveButton(props){
                     });
                 }
                 else {
-                    console.log("Request has been approved without free shipping")
+                    console.log("Request has been approved")
                     await apiCall(props.id);
                     setAlertMessage({
                         title: 'Gelukt!',
-                        message: `Request is goedgekeurd zonder gratis verzending.`, // Fixed string interpolation
+                        message: `Request is goedgekeurd.`, // Fixed string interpolation
                         show: true
                     });
                 }

@@ -41,11 +41,12 @@ export default function ReturnRequestTab(props) {
         item.answers && item.answers.some(answer => answer?.attachments && answer.attachments.length > 0)
     );
 
+    console.log(returnless.state)
+
     console.log("Return Request", returnless);
 
     return (
         <div>
-            <p style={{ color: 'red' }}>LET OP!! Deze functie werkt nog niet goed.</p>
             <h3 style={{ marginBottom: '0px', marginTop: '2px' }}>Return Request informatie:</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
@@ -106,43 +107,45 @@ export default function ReturnRequestTab(props) {
                 </div>
             </div>
 
-            {/* Styling of the Bottom element */}
-            <div style={{ paddingTop: '10px', borderRadius: '8px', maxWidth: '400px', margin: '0 auto' }}>
-                <div style={{ marginBottom: '10px' }}>
-                    <label htmlFor="itemDropdown" style={{ display: 'block', fontSize: '16px'}}>Notitie toevoegen:</label>
-                    <select 
-                        id="itemDropdown" 
-                        name="itemDropdown" 
-                        value={selectedValue} 
-                        onChange={handleChange} 
-                        style={{ fontSize: '16px', padding: '10px', borderRadius: '4px', width: '100%' }}
-                    >
-                        <option value="" disabled>--Selecteer een notitie--</option>
-                        {dropdownOptions.map(dropdownOption => (
-                            <option key={dropdownOption.value} value={dropdownOption.value}>
-                                {dropdownOption.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+            {returnless.state === 'request-pending' && (
+                <div style={{ paddingTop: '10px', borderRadius: '8px', maxWidth: '400px', margin: '0 auto' }}>
+                    <div style={{ marginBottom: '10px' }}>
+                        <label htmlFor="itemDropdown" style={{ display: 'block', fontSize: '16px' }}>Notitie toevoegen:</label>
+                        <select
+                            id="itemDropdown"
+                            name="itemDropdown"
+                            value={selectedValue}
+                            onChange={handleChange}
+                            style={{ fontSize: '16px', padding: '10px', borderRadius: '4px', width: '100%' }}
+                        >
+                            <option value="" disabled>--Selecteer een notitie--</option>
+                            {dropdownOptions.map(dropdownOption => (
+                                <option key={dropdownOption.value} value={dropdownOption.value}>
+                                    {dropdownOption.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                        id="gratisVerzending"
-                        style={{ marginRight: '8px', accentColor: '#e3a4c0' }}
-                    />
-                    <label htmlFor="gratisVerzending" style={{ fontSize: '16px' }}>Gratis Verzending</label>
-                </div>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={handleCheckboxChange}
+                            id="gratisVerzending"
+                            style={{ marginRight: '8px', accentColor: '#e3a4c0' }}
+                        />
+                        <label htmlFor="gratisVerzending" style={{ fontSize: '16px' }}>Gratis Verzending</label>
+                    </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                    <ApproveButton checked={isChecked} noteID={selectedValue} id={returnless.id}/>
-                    <ApproveWoShipmentButton noteID={selectedValue} id={returnless.id}/>
-                    <RejectButton noteID={selectedValue} id={returnless.id}/>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                        <ApproveButton checked={isChecked} noteID={selectedValue} id={returnless.id} />
+                        <ApproveWoShipmentButton noteID={selectedValue} id={returnless.id} />
+                        <RejectButton noteID={selectedValue} id={returnless.id} />
+                    </div>
                 </div>
-            </div>
+            )}
+
         </div>
     );
 }

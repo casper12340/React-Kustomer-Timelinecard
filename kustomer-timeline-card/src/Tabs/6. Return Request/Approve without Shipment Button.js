@@ -18,7 +18,7 @@ export default function ApproveWoShipment(props) {
         };
 
         // Change this to id
-        return fetch(`https://api-v2.returnless.com/2023-01/request-orders/returnorder_oo1nQE6Y2Xl77FlAgY9P9Jta0/approve-without-shipment`, requestOptions)
+        return fetch(`https://api-v2.returnless.com/2023-01/request-orders/${id}/approve-without-shipment`, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok.');

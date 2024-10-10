@@ -19,7 +19,7 @@ export default function AddNote ( noteID, id ) {
     redirect: "follow"
   };
   // Change this to id
-  return fetch("https://api-v2.returnless.com/2023-01/request-orders/returnorder_MVkrWELONdGgLh82wPKV46uok/notes", requestOptions)
+  return fetch(`https://api-v2.returnless.com/2023-01/request-orders/${id}/notes`, requestOptions)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.error('Error:', error));

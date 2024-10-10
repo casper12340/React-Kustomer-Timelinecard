@@ -18,7 +18,7 @@ export default function RejectButton(props){
             redirect: "follow"
           };
         // Change this to id
-          return fetch("https://api-v2.returnless.com/2023-01/request-orders/returnorder_MVkrWELONdGgLh82wPKV46uok/reject", requestOptions)
+          return fetch(`https://api-v2.returnless.com/2023-01/request-orders/${id}/reject`, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok.');
