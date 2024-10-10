@@ -8,7 +8,7 @@ export default function ApproveButton(props){
 
     async function apiCall(id){
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer XhPeDPsNuaHf7pw2GAWNBA2HmKNuGQyRZ1ZDpm1hd0649e8c");
+        myHeaders.append("Authorization", process.env.REACT_APP_RETURNLESS_TOKEN);
         myHeaders.append("Accept", "application/json");
         myHeaders.append("Content-Type", "application/json");
         
@@ -31,7 +31,7 @@ export default function ApproveButton(props){
     
     async function apiCallFreeShipping(id){
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer XhPeDPsNuaHf7pw2GAWNBA2HmKNuGQyRZ1ZDpm1hd0649e8c");
+        myHeaders.append("Authorization", process.env.REACT_APP_RETURNLESS_TOKEN);
         myHeaders.append("Accept", "application/json");
         myHeaders.append("Content-Type", "application/json");
 
