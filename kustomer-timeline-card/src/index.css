@@ -11,25 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-#orderInfo{
+#basicInfo{
   background-color:#f2f2f2;
-  padding-left:20px;
+  padding-left:24px;
   padding-bottom:10px;
   margin-top:-30px;
+  color:black;
   
 }
-#OrderInfoTitle{
+#basicInfoTitle{
+  padding-top: 15px;
   font-size:25px;
 }
-#OrderInfoHeadingRow{
+#basicInfoHeadingRow{
   background-color:#BFBFBF;
-  margin-left: -20px;
-  padding-left: 20px;
+  margin-left: -24px;
+  padding-left: 24px;
   padding-bottom: -40px !important;
+  color: black;
 }
 
 /* CSS code to create 2 columns in the header of 'Order Info.js' */
 .column {
+  padding-top:0px;
   float: left;
   width: 50%;
   margin-bottom: -10px;
@@ -38,5 +42,259 @@ code {
   display: table;
   clear: both;
 }
+
+
+
+/* CSS for Basic Info */
+.address{
+  line-height: 8px;
+  margin-left: 15px;
+}
+
+
+/* CSS for Order Info */
+.fourColumns {
+  flex: 1; /* Each column takes up an equal amount of space */
+  background-color: #f0f0f0;
+  padding: 0px 20px 10px 20px;
+  border-radius: 8px;
+  /* display: flex; */
+  flex-direction: column;
+  margin-bottom: 20px;
+  height:100%;
+  /* justify-content: space-between; */
+}
+.fourColumnsTotal {
+  flex: 1; /* Each column takes up an equal amount of space */
+  background-color: #f0f0f0;
+  padding: 0px 20px 10px 20px;
+  border-radius: 8px;
+  /* display: flex; */
+  flex-direction: column;
+  margin-bottom: 20px;
+  height:100%;
+  /* justify-content: space-between; */
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex; /* Use Flexbox */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 20px; /* Add some space between columns */
+  color:black
+}
+
+/* CSS for the CSO Button */
+#csoButton{
+  background-color: #e3a4c0;
+  padding: 10px 10px 10px 10px;
+  border-radius: 6px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 24px;
+  margin-bottom: 10px;
+}
+#csoButton:hover{
+  background-color:#d186a0;
+}
+#csoSendButton{
+  background-color: #e3a4c0;
+  padding: 5px 5px 5px 5px;
+  border-radius: 6px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+#csoSendButton:hover{
+  background-color:#d186a0;
+}
+/* Disabled button styles */
+#csoSendButton:disabled {
+  background-color: #6c757d; /* Gray color for disabled state */
+  color: #fff;
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+  opacity: 0.65; /* Slightly transparent */
+  box-shadow: none; /* Remove shadow */
+}
+
+/* Remove hover effects for disabled button */
+#csoSendButton:disabled:hover {
+  background-color: #6c757d; /* Ensure background stays the same */
+  box-shadow: none; /* Ensure no shadow */
+}
+
+
+
+
+input[type="number" i]{
+  pointer-events: none;
+  font-size: 16px;
+}
+/* Hides arrows in Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Hides arrows in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: f;
+}
+
+
+
+#noMarginBottom{
+  margin-bottom:0px;
+  margin-top: 10px;
+}
+#smallMarginBottomAndTop{
+  margin-bottom:2px;
+  margin-top: 2px;
+}
+#noMarginTop{
+  margin-top:0px;
+  color: #f0f0f0;
+  margin-bottom:0px;
+}
+
+.divider {
+  border-top: 1px solid black;
+  margin-top: 5px; /* Adjust margin as needed */
+  margin-bottom: 5px; /* Adjust margin as needed */
+}
+.paragraph-wrapper {
+  width: 100%; /* Adjust the width as needed */
+}
+.paragraph-wrapper p {
+  display: inline-block; /* Display paragraphs inline */
+  width: 50%; /* Adjust width as needed */
+  margin: 0;
+}
+
+
+
+
+.bodyItems{
+  margin-top:2px;
+  margin-bottom:0px;
+}
+
+
+
+
+
+/* Styling for the CSO Number Input Box */
+
+#inputContainer{
+  display: flex;
+  align-items: center;
+}
+#numberButton{
+  background-color: #e3a4c0;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 2px;
+}
+#numberButton:hover{
+  background-color: #d186a0;
+}
+#inputBox{
+  height: 22px;
+  width: 40px;
+  text-align: center;
+  margin: 0 5px;
+  border-radius: 2px;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+
+
+
+
+
+
+/* Styling of the Image Carousel */
+.carousel .control-prev.control-arrow:before{
+  border-right: 8px solid #E3A4C0 !important;
+}
+.carousel .control-next.control-arrow:before{
+  border-left: 8px solid #E3A4C0 !important;
+}
+.carousel .control-dots .dot.selected, .carousel .control-dots .dot:hover {
+  background: #E3A4C0 !important;
+}
+.carousel .control-dots .dot {
+  background: #FCE8F1 !important
+}
+
+/* .carousel-root{
+  display:flex !important;
+  justify-content: center !important;
+  align-items: center !important;  
+  max-width: 100% !important;
+  width: 20em !important;
+} */
+
+
+
+.carousel {
+  max-width: 100% !important;
+  display: grid;
+}
+
+.carousel .slider-wrapper {
+  max-width: 100%;
+}
+
+.carousel .slider {
+  display: flex;
+  align-items: center;        /* Center items vertically */
+}
+
+.carousel .slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;              /* Ensure it takes the full height */
+}
+.carousel .thumbs-wrapper{
+  margin: 0px !important;
+}
+.carousel .thumbs-wrapper{
+  display: none;
+}
+
+
+
+
+/* CSS for the Request Button */
+#requestButton{
+  background-color: #e3a4c0;
+  padding: 10px 10px 10px 10px;
+  border-radius: 6px;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  /* margin-bottom: 10px; */
+}
+#requestButton:hover{
+  background-color:#d186a0;
+}
+
+
+
 
 

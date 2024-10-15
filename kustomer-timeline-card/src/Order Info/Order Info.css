@@ -1,0 +1,60 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .gridContainer {
+    display: grid;
+    width: 100%;
+    gap: 1px; /* Optional: gap between rows */
+    border-collapse: collapse;
+  }
+  
+  .headerRow, .gridRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* Adjust based on your needs */
+    align-items: center;
+    padding: 10px 0; /* Space between rows */
+  }
+  
+  .headerRow .gridItem, .gridRow .gridItem {
+    padding: 5px 10px;
+  }
+  
+  .headerRow {
+    background: #f0f0f0; /* Optional: Background color for header */
+    font-weight: bold;
+  }
+  
+  .gridRow:nth-child(odd) {
+    background: #fafafa; /* Optional: Stripe effect for rows */
+  }
+  
+  .gridRow:nth-child(even) {
+    background: #f5f5f5; /* Optional: Stripe effect for rows */
+  }
+  
+  .gridItem {
+    border: 1px solid #ccc; /* Border around each cell */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  #csoDiv {
+    display: none; /* Initially hidden */
+  }
+  
+  .totalContainer {
+    width: 100%;
+    text-align: right;
+    margin-top: 20px;
+  }
+  

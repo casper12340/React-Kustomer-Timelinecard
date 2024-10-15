@@ -7,10 +7,24 @@
 .MuiButtonBase-root.MuiTab-root.Mui-selected{
   color:#d66598;
   font-weight: bold;
-
 }
 
 .MuiButtonBase-root{
   width:25%;
   font-size:16px !important;
+}
+
+/* Active tab information */
+.css-w8dmq8{
+  background-color:#f2f2f2;
+  border-radius: 10px;
+  color: black;
+  margin-bottom: 10px;
+}
+.css-13xfq8m-MuiTabPanel-root{
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.css-ttwr4n{
+  background-color: #d66598 !important;
 }
