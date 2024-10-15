@@ -40,14 +40,19 @@ const statusMap = {
   let status = statusMap[state] || state; // Default to the original state if not found in the map
 
 
-
-function changeDate (date){
+function changeDate(date) {
   const dateObject = new Date(date);
   const padToTwoDigits = (num) => String(num).padStart(2, '0');
+
+  // Add 2 hours to the current UTC hours
+  dateObject.setUTCHours(dateObject.getUTCHours() + 2);
+
   const formattedDateTime = 
     `${padToTwoDigits(dateObject.getUTCDate())}-${padToTwoDigits(dateObject.getUTCMonth() + 1)}-${dateObject.getUTCFullYear()} ` +
     `${padToTwoDigits(dateObject.getUTCHours())}:${padToTwoDigits(dateObject.getUTCMinutes())}`;
-  return formattedDateTime}
+
+  return formattedDateTime;
+}
 
   return (
     <div id="basicInfo">

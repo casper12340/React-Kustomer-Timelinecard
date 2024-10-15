@@ -7,8 +7,12 @@ import RejectButton from './Reject Button';
 function formatDate(date) {
     const dateObj = new Date(date);
     const padToTwoDigits = num => String(num).padStart(2, '0');
+
+    // Adjust the hours for UTC+2
+    const localHours = dateObj.getUTCHours() + 2;
+
     return `${padToTwoDigits(dateObj.getUTCDate())}-${padToTwoDigits(dateObj.getUTCMonth() + 1)}-${dateObj.getUTCFullYear()} ` +
-           `${padToTwoDigits(dateObj.getUTCHours())}:${padToTwoDigits(dateObj.getUTCMinutes())}`;
+           `${padToTwoDigits(localHours)}:${padToTwoDigits(dateObj.getUTCMinutes())}`;
 }
 
 export default function ReturnRequestTab(props) {

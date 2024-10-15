@@ -16,8 +16,6 @@ export default function ApproveWoShipment(props) {
             headers: myHeaders,
             redirect: "follow"
         };
-
-        // Change this to id
         return fetch(`https://api-v2.returnless.com/2023-01/request-orders/${id}/approve-without-shipment`, requestOptions)
             .then(response => {
                 if (!response.ok) {
@@ -26,6 +24,32 @@ export default function ApproveWoShipment(props) {
                 return response.json();
             })
             .then(result => result)
+            .catch(error => { throw error });
+    }
+
+    function setReturnStatus(id) {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", process.env.REACT_APP_RETURNLESS_TOKEN);
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Content-Type", "application/json");
+
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("status_id", "returnstatus_aaVkP09mYJPJvTbaXw5r5ZUaQ");
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            redirect: "follow",
+            body: urlencoded
+        };
+        return fetch(`https://api-v2.returnless.com/2023-01/return-orders/${id}/return-status`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then((result) => console.log("Set Return Status:", result))
             .catch(error => { throw error });
     }
 
@@ -43,6 +67,13 @@ export default function ApproveWoShipment(props) {
                 
                 // Wait for the API call to complete
                 await apiCall(props.id);
+                
+                const noteIDList = ["365837a0_New_Item_No_Returns", "xfvt70o6_PNOV_No_Returns", "76a084af_Refund_No_Returns"];
+
+                if (props.noteID && noteIDList.includes(props.noteID)) {
+                    await setReturnStatus(props.id);
+                }
+                
                 
                 // Set the success message after successful API call
                 setAlertMessage({
