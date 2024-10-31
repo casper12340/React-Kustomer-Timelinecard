@@ -53,7 +53,7 @@ export default function CreateCSO(props) {
               });
               return; // Exit early to avoid further processing
             }
-            arr.push([sku, stockData.ean, stockData.product_id])
+            arr.push([sku, stockData.ean])
           } catch (error) {
             // Handle error scenario, e.g., log it or show an alert
             setAlertMessage({
@@ -109,12 +109,13 @@ export default function CreateCSO(props) {
         throw new Error(`HTTP error! Status: ${response.status}`); // Fixed string interpolation
       }
       const result = await response.json();
+      console.log("Stock", result.available_stock);
+      console.log("EAN", result.ean);
 
       // Return both available_stock and closest_matches
       return {
         available_stock: result.available_stock,
         ean: result.ean,
-        product_id: result.product_id,
         closest_matches: result.closest_matches || []
       };
 
@@ -133,7 +134,6 @@ export default function CreateCSO(props) {
     String(today.getMonth() + 1).padStart(2, '0') + '-' + 
     String(today.getDate()).padStart(2, '0');
 
-  // Makes call to Sales Processing List
   const createOrderBC = async (finalSkus, documentNumber, oldBCOrder) => {
     console.log("Document Number:", documentNumber)
     console.log("Creating CSO for SKUs:", finalSkus);
@@ -143,23 +143,35 @@ export default function CreateCSO(props) {
 
     for(let i = 0; i < finalSkus.length; i++){
       // Transform the SKU and get the resulting array
-      let transformedSkuArray = transformOrderNumber(finalSkus[i][2]);
+      let transformedSkuArray = transformOrderNumber(finalSkus[i][0]);
       // Check if the transformed array has at least 2 elements
       if (transformedSkuArray.length >= 2) {
         saleslines.push({
-          "lineNo": 10000 + (i * 10000),
-          // "no": transformedSkuArray[0],
-          // "variantCode": transformedSkuArray[1],
+          "type": "Item",
+          "documentType": "Order",
+          "documentNo": documentNumber, // You might want to customize this for each sales line if needed
+          "lineNo": 10000 + (i * 10000), // Increment the line number by 10000 for each item
           "locationCode": "MW",
+          // "no": transformedSkuArray[0],  // First element as "no"
+          "description": "",
+          // "variantCode": transformedSkuArray[1],  // Second element as "variantCode"
+          // "barcode": finalSkus[i][1], // You might want to replace this with a dynamic value if applicable
+          "barcode": "8719954198825",
+          "quantity": finalAmount[i], // Adjust this as needed
           "unitofMeasureCode": "PC",
-          "quantity": finalAmount[i],
           "price": 0,
-          "netAmount": 0,
           "amount": 0,
+          "netamount": 0,
           "discountAmount": 0,
           "discountPercent": 0,
-          "barcode":"8719954198825"
-          // "barcode": finalSkus[i][1]
+          "invDiscountAmount": 0,
+          "lineID": "",
+          "plannedShipmentDate": formattedToday,
+          "plannedDeliveryDate": formattedToday,
+          "webTransactionID": "00000000-0000-0000-0000-000000000000",
+          "prepaymentPercentage": 0,
+          "prepaymentAmount": 0,
+          "purchasingCode": ""
         });
       } else {
         console.error(`Invalid SKU transformation for index ${i}:`, transformedSkuArray);
@@ -179,44 +191,46 @@ export default function CreateCSO(props) {
 
 
     const raw = JSON.stringify({
-      "customerNo": oldBCOrder["sellToCustomerNo"],
-      "storeNo": "",
       "documentType": "Order",
       "documentNo": documentNumber,
       "paymentMethod": oldBCOrder["paymentMethodCode"],
-      "orderStatus": "processing",
+      "orderStatus": "Processing",
       "orderOrigin": oldBCOrder["orderOrigin"],
+      "requestedDeliveryDate": formattedToday,
       "orderID": documentNumber,
-      "pspReference": "pspref",
+      "customerNo": oldBCOrder["sellToCustomerNo"],
+      // "customerNo": customerNo[customerData.shippingCountryStr][0],
+      "pspReference": "PSPREF",
+      "webTransactionID": "00000000-0000-0000-0000-000000000000",
       "basketPrice": 0,
       "shiptoName": customerData.customerNameStr,
       "shiptoID": "",
       "shiptoAddress": customerData.shippingStreetStr,
       "shiptoAddress2": "",
-      "shiptoHouseNumber": "",
       "shiptoCity": customerData.shippingCityStr,
       "shiptoPostCode": customerData.shippingZipStr,
-      "shiptoCounty": "",
       "shiptoCountryRegionCode": customerData.shippingCountryStr,
-      "shiptoPhoneNo": "",
-      "billtoName": data.kobject.data.billing_address.firstname,
+      "selltoName": oldBCOrder["sellToCustomerName"],
+      // "selltoName": customerNo[customerData.shippingCountryStr][1],
+      "selltoID": "",
+      "selltoAddress": customerData.shippingStreetStr,
+      "selltoCity": customerData.shippingCityStr,
+      "selltoPostCode": customerData.shippingZipStr,
+      "billtoName": customerData.customerNameStr,
       "billtoID": "",
       "billtoAddress": customerData.billingStreetStr,
-      "billtoAddress2": "",
-      "billtoHouseNumber": "",
       "billtoCity": customerData.billingCityStr,
       "billtoPostCode": customerData.billingZipStr,
-      "billtoCounty": "",
-      "billtoCountryRegionCode": customerData.billingCountryStr,
-      "billtoPhoneNo": "",
-      "eMail": "casper.dekeijzer@my-jewellery.com",
       // "eMail": customerData.customerEmailStr,
-      "paazlShopID": "1184",
+      "eMail": "casper.dekeijzer@my-jewellery.com",
       "shippingAgentCode": oldBCOrder["shippingAgentCode"],
-      "shipmentMethodCode": oldBCOrder["shippingAgentServiceCode"],
+      // "shippingAgentCode": "POSTNL",
+      "shippingAgentServiceCode": oldBCOrder["shippingAgentServiceCode"],
+      // "shippingAgentServiceCode": "AVG",
+      "shipmentMethodCode": "",
       "priceIncludeVAT": true,
       "externalDocumentNo": customerData.incrementIdStr,
-      "mjysaleslines": saleslines
+      "saleslines": saleslines
     });
 
 // const url = new URL('https://sieradenbeheerapi.my-jewellery.com:7068/ACCEPT2/api/tcg/imr/v2.0/companies(762e400d-b869-ec11-be1e-000d3abee88a)/sales');
@@ -231,25 +245,14 @@ const url = new URL(process.env.REACT_APP_CSO_URL_DEV);
       body: raw,
       redirect: 'follow'
     });
-  
     const result = await response.json();
     console.log(result);
-  
-    // Check if there is an error in the result
-    if (!result.error) {
-      // No error found, show success alert
-      alert(`Gelukt! Er is een CSO aangemaakt met nummer: ${documentNumber}`);
-    } else {
-      // Error found in result, show error alert
-      alert(`Er is een fout opgetreden: ${result.error.message}`);
-    }
-  
+
+    alert(`Gelukt! Er is een CSO aangemaakt met nummer: ${documentNumber}`)
+
   } catch (error) {
-    // Handle any network or other errors
     console.error('Error creating CSO:', error);
-    alert('Er is een fout opgetreden bij het maken van de CSO.');
   }
-  
 };
 
   const handleSelectMatch = (selectedSku) => {
