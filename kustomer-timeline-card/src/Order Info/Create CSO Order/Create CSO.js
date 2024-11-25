@@ -148,8 +148,8 @@ export default function CreateCSO(props) {
       if (transformedSkuArray.length >= 2) {
         saleslines.push({
           "lineNo": 10000 + (i * 10000),
-          // "no": transformedSkuArray[0],
-          // "variantCode": transformedSkuArray[1],
+          "no": transformedSkuArray[0],
+          "variantCode": transformedSkuArray[1],
           "locationCode": "MW",
           "unitofMeasureCode": "PC",
           "quantity": finalAmount[i],
@@ -158,7 +158,7 @@ export default function CreateCSO(props) {
           "amount": 0,
           "discountAmount": 0,
           "discountPercent": 0,
-          "barcode":"8719954198825"
+          // "barcode":"8719954198825"
           // "barcode": finalSkus[i][1]
         });
       } else {
