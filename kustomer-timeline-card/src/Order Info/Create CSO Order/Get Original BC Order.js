@@ -12,7 +12,7 @@ export async function getOldBCOrder(orderNumber) {
         redirect: "follow"
     };
     
-    const url = new URL((process.env.REACT_APP_BASE_URL_ROOT_DEV + `/salesshipment?$filter=orderNo eq 'CSO23-18870'`));
+    const url = new URL((process.env.REACT_APP_BASE_URL_ROOT_DEV + `/salesshipment?$filter=orderNo eq '${orderNumber}'`));
     url.searchParams.append('tenant', 'operations');
     console.log("url", url);
     
