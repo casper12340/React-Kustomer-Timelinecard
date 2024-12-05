@@ -8,7 +8,7 @@ export const getNumber = async () => {
 
     querySnapshot.forEach((doc) => {
       const oldOrderNumber = doc.data().order_number;
-      const numericPart = parseInt(oldOrderNumber.replace('CSO-', ''), 10);  // Extract numeric part
+      const numericPart = parseInt(oldOrderNumber.replace('CSO-K', ''), 10);  // Extract numeric part
       if (numericPart > highestNumber) {
         highestNumber = numericPart;  // Keep track of the highest number
       }
@@ -16,7 +16,7 @@ export const getNumber = async () => {
 
     // Generate the next order number by incrementing the highest number
     const nextNumber = highestNumber + 1;
-    const formattedNextNumber = `CSO-${String(nextNumber).padStart(6, '0')}`;  // Format with leading zeros
+    const formattedNextNumber = `CSO-K${String(nextNumber).padStart(6, '0')}`;  // Format with leading zeros
 
     return formattedNextNumber;
 

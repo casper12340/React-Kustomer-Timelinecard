@@ -5,7 +5,10 @@ import CreateCSO from './Create CSO Order/Create CSO';
 export default function OrderInfo(props) {
 
   const [cso, setCso] = useState(false);
+  const [CSObuttonVisible, setCSObuttonVisible] = useState(true);
   const [csoQuantities, setCsoQuantities] = useState({});
+  const [selectedReason, setSelectedReason] = useState('');
+  const [reasonError, setReasonError] = useState(false);
   
   if (!props.data2 || !props.data2.huts) {
     return null;
@@ -42,6 +45,7 @@ export default function OrderInfo(props) {
 
   function csoPresent() {
     setCso(!cso);
+    setCSObuttonVisible(false);
   }
 
   const handleCsoQuantityChange = (skuStr, quantity) => {
@@ -49,6 +53,11 @@ export default function OrderInfo(props) {
       ...prevQuantities,
       [skuStr]: quantity
     }));
+  };
+
+  const handleReasonChange = (event) => {
+    setSelectedReason(event.target.value);
+    setReasonError(false);  // Reset error when the user selects a reason
   };
 
   return (
@@ -95,8 +104,9 @@ export default function OrderInfo(props) {
             <div></div>
             {cso &&
               <div className='center'>
-                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2}/>
+                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2} reason={selectedReason}/>
               </div>}
+
             <div id='smallMarginBottomAndTop' style={{ textAlign: 'right' }}>
               <div className="divider"></div>
               <p id='smallMarginBottomAndTop'>€ {totalSum.replace('.', ',')}</p>
@@ -117,9 +127,44 @@ export default function OrderInfo(props) {
           </div>
         </div>
 
-        {(props.delivered || props.returnData) && filteredItems.length > 0 && (
-          <button id='csoButton' onClick={csoPresent}>CSO Aanmaken</button>
-        )}
+
+
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px'}}>
+          {(props.delivered || props.returnData) && filteredItems.length > 0 && !cso && (
+            <button id='csoButton' onClick={csoPresent}>CSO Aanmaken</button>
+          )}
+
+          {cso && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <select 
+                value={selectedReason} 
+                onChange={handleReasonChange} 
+                required
+                style={{ fontSize: '16px', padding: '10px', borderRadius: '4px', width: '100%' }}  // Optional: Adds space between select and error message
+              >
+                <option value="" disabled>Selecteer een reden</option>
+                <option value="G_KAPOT">Item is kapotgegaan tijdens gebruik</option>
+                <option value="G_PRODFOUT">Item bevat een productiefout</option>
+                <option value="G_VRKLEURD">Item is verkleurd</option>
+                <option value="SYS_BC">Order niet doorgekomen BC</option>
+                <option value="SYS_MAG">Order niet doorgekomen Magento</option>
+                <option value="SYS_PAAZL">Foutmelding in Paazl</option>
+                <option value="SYS_WMS">Order niet doorgekomen WMS</option>
+                <option value="VV_KAPOT">Kapot item door levering vervoerder</option>
+                <option value="VV_NIETONT">Order niet geleverd door vervoerder</option>
+                <option value="W_FOUTITEM">Fout item opgestuurd door WH</option>
+                <option value="W_GEENLAB">Wel in BC, niet in Paazl WH</option>
+                <option value="W_ITEMMIS">Item mist WH</option>
+                <option value="W_KAPOT">Kapot item door WH</option>
+                <option value="W_VERWPAK">Pakket verwisseld WH</option>
+                <option value="W_WELLAB">Wel in Paazl, niet bij vervoerder WH</option>
+              </select>
+              {reasonError && <p style={{ color: 'red', margin: '0' }}>Reason is required</p>}
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   );

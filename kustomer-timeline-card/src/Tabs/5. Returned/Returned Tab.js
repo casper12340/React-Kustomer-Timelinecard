@@ -19,7 +19,7 @@ export default function Returned(props) {
     if (returnData === "No return data found" || returnData.length < 1){ 
         return <p>Item was PNOV.</p>}
     // Determine if attachments are present
-    const attachmentsPresent = returnData.includes.return_order_items.some(item => (
+    const attachmentsPresent = returnData?.includes.return_order_items.some(item => (
         item.answers && item.answers.length > 0 && item.answers.some(answer => answer.attachments && answer.attachments.length > 0)
     ));
 
@@ -59,7 +59,7 @@ export default function Returned(props) {
                         {attachmentsPresent && <div>Afbeelding klant</div>}
                     </div>
                     {/* Product Rows */}
-                    {returnData.includes.return_order_items.map(item => (
+                    {returnData?.includes.return_order_items.map(item => (
                         <div key={item.id} style={{ display: 'grid', gridTemplateColumns: `1fr 2fr 2fr ${attachmentsPresent ? '1fr' : ''}`, alignItems: 'center', gap: '0px 20px', padding: '10px', border: '1px solid #ccc', borderRadius: '8px' }}>
                             <div>
                                 {item.product.image_src ? (
