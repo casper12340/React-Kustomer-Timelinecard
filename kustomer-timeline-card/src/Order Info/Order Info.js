@@ -3,7 +3,6 @@ import NumberInput from './CSO Number Input';
 import CreateCSO from './Create CSO Order/Create CSO';
 
 export default function OrderInfo(props) {
-
   const [cso, setCso] = useState(false);
   const [CSObuttonVisible, setCSObuttonVisible] = useState(true);
   const [csoQuantities, setCsoQuantities] = useState({});
@@ -13,8 +12,39 @@ export default function OrderInfo(props) {
   if (!props.data2 || !props.data2.huts) {
     return null;
   }
-  
+
   const kobject = props.data2.huts.customContext.kobject;
+  let state = kobject.custom.statusStr;
+  if (props.paazlUrl && state === 'processing') {
+     // Set status to 'shipped'
+      state = 'shipped';
+  }
+  if (props.delivered && (state === "Shipped" || state === "shipped")){
+      state = "delivered"
+  }
+  if (kobject.data?.returnless){
+    state = 'request'
+  }
+  if (props.returnData){
+    if (props.returnData !== "No return data found"){
+    state = "returned"
+}}
+
+const statusMap = {
+  "new": "Pending",
+  "pending": "Pending",
+  "pending_payment": "Pending",
+  "payment_review": "Pending",
+  "processing": "Processing",
+  "shipped": "Shipped",
+  "delivered": "Delivered",
+  "canceled": "Canceled",
+  "returned": "Returned",
+  'request': "Return Request",
+  "closed": "Returned"
+};
+  let status = statusMap[state] || state;
+
   const items = props.data2.huts.customContext.kobject.custom.itemsObj;
 
   let tax;
@@ -99,43 +129,8 @@ export default function OrderInfo(props) {
             </div>
           ))}
           <div style={{ display: 'grid', gridTemplateColumns: `3fr 1fr 1fr ${cso ? '2fr' : ""} 3fr`, alignItems: 'center', gap: '0px ', paddingLeft: '10px' }}>
-            <div></div>
-            <div></div>
-            <div></div>
-            {cso &&
-              <div className='center'>
-                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2} reason={selectedReason}/>
-              </div>}
-
-            <div id='smallMarginBottomAndTop' style={{ textAlign: 'right' }}>
-              <div className="divider"></div>
-              <p id='smallMarginBottomAndTop'>€ {totalSum.replace('.', ',')}</p>
-              <div className="paragraph-wrapper">
-                {kobject.data.base_discount_amount !== 0 && (
-                  <>
-                    <p style={{ textAlign: 'left' }}>{kobject.data.discount_description ? kobject.data.discount_description : "Korting:"}</p>
-                    <p style={{ paddingTop: '10px' }}>€ {(kobject.data.base_discount_amount).toFixed(2).replace('.', ',')}</p>
-                  </>
-                )}
-                <p style={{ textAlign: 'left' }}>Verzendkosten:</p>
-                <p style={{ paddingTop: '10px' }}>€ {(kobject.data.shipping_incl_tax).toFixed(2).replace('.', ',')}</p>
-                <div className="divider"></div>
-                <p style={{ textAlign: 'left' }}>Totaal:</p>
-                <p style={{ paddingTop: '10px' }}>€ {(kobject.data.grand_total).toFixed(2).replace('.', ',')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px'}}>
-          {(props.delivered || props.returnData) && filteredItems.length > 0 && !cso && (
-            <button id='csoButton' onClick={csoPresent}>CSO Aanmaken</button>
-          )}
-
-          {cso && (
+            <div>
+            {cso && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <select 
                 value={selectedReason} 
@@ -163,6 +158,42 @@ export default function OrderInfo(props) {
               {reasonError && <p style={{ color: 'red', margin: '0' }}>Reason is required</p>}
             </div>
           )}
+            </div>
+            <div></div>
+            <div></div>
+            {cso &&
+              <div className='center'>
+                
+                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2} reason={selectedReason}/>
+              </div>}
+
+            <div id='smallMarginBottomAndTop' style={{ textAlign: 'right' }}>
+              <div className="divider"></div>
+              <p id='smallMarginBottomAndTop'>€ {totalSum.replace('.', ',')}</p>
+              <div className="paragraph-wrapper">
+                {kobject.data.base_discount_amount !== 0 && (
+                  <>
+                    <p style={{ textAlign: 'left' }}>{kobject.data.discount_description ? kobject.data.discount_description : "Korting:"}</p>
+                    <p style={{ paddingTop: '10px' }}>€ {(kobject.data.base_discount_amount).toFixed(2).replace('.', ',')}</p>
+                  </>
+                )}
+                <p style={{ textAlign: 'left' }}>Verzendkosten:</p>
+                <p style={{ paddingTop: '10px' }}>€ {(kobject.data.shipping_incl_tax).toFixed(2).replace('.', ',')}</p>
+                <div className="divider"></div>
+                <p style={{ textAlign: 'left' }}>Totaal:</p>
+                <p style={{ paddingTop: '10px' }}>€ {(kobject.data.grand_total).toFixed(2).replace('.', ',')}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px'}}>
+          {(status != "Pending" && status != "Canceled") && filteredItems.length > 0 && !cso && (
+            <button id='csoButton' onClick={csoPresent}>CSO Aanmaken</button>
+          )}
+
+
         </div>
 
       </div>

@@ -19,12 +19,15 @@ export async function getOldBCOrder(orderNumber) {
     try {
         const response = await fetch(url, requestOptions); // Wait for the fetch to complete
         if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`); // Check for HTTP errors
+            alert("Er is iets fout gegaan met het ophalen van de oude order in BC")
+            throw new Error(`HTTP error! Status: ${response.status}`); // Check for HTTP errors
         }
         const result = await response.json(); // Parse the JSON response
         
         if (!Array.isArray(result["value"]) || result["value"].length === 0) {
-            throw new Error("Error: The list is empty.");
+            alert("De originele order is niet gevonden in BC")
+            throw new Error("Error: Original order was not found in BC.");
+            
         }
         console.log("Shipment header", result["value"][0]);
         return result["value"][0];
