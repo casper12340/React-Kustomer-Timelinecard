@@ -298,4 +298,31 @@ input[type="number"] {
 
 
 
+/* Sweet alert button styles */
+.swal2-confirm {
+  background-color: #e3a4c0 !important;
+  border-color: #e3a4c0 !important;
+  color: black !important;
+}
 
+.swal2-confirm:hover {
+  background-color: #d186a0 !important;
+  border-color: #d186a0 !important;
+  color: black !important;
+}
+
+.swal2-cancel {
+  background-color: #FCE8F1 !important;
+  border-color: #FCE8F1 !important;
+  color: black !important;
+}
+
+.swal2-cancel:hover {
+  background-color: #FCE8FB !important;
+  border-color: #FCE8FB !important;
+  color: black !important;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+  margin-top: -600px; /* Adjust this value as needed to move the popup higher */
+}
