@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomAlert from './CustomAlert';
 import transformOrderNumber from './Transform Order Number';
-
 import setCSONumber from './Get CSO Number'
+import setOldCSONumber from './Set CSO Number to Old';
 import { getOldBCOrder } from './Get Original BC Order';
 import LogUser from './Log User Created CSO'
 import Swal from 'sweetalert2';
-
+import '/Users/casper.dekeijzer/Documents/react-folder/kustomer-timeline-card/src/Order Info/Order Info.css'
 
 var arr = [];
 
@@ -17,106 +17,126 @@ export default function CreateCSO(props) {
   const [lastProcessedIndex, setLastProcessedIndex] = useState(0);  // Track the last processed index in the loop
   const [pendingSku, setPendingSku] = useState(null); // Track the pending SKU for closest match selection
   const [progress, setProgress] = useState(0); // Initialize progress to 0
+  const [queue, setQueue] = useState([])
+
+  const addItemQueue = (item) => {
+    setQueue((prevQueue) => [...prevQueue, item]);
+  };
+
+  const removeFirstItemFromQueue = () => {
+    setQueue((prevQueue) => prevQueue.slice(1));
+  };
+  
 
   const data = props.data2.huts.customContext;
   const customerData = data.kobject.custom;
   
   const createCSO = async (skuToCheck = null) => {
     setLoading(true);
-    const totalSteps = 5;
-    const stepProgress = 100 / totalSteps;
+
+
     try {
-      setProgress(prev => Math.min(prev + stepProgress, 100));
-  
-      const skusToProcess = Object.keys(props.csoQuantities).filter(sku => props.csoQuantities[sku] !== 0);
-      for (let i = lastProcessedIndex; i < skusToProcess.length; i++) {
-        const sku = skuToCheck || skusToProcess[i];
-  
-        if (props.csoQuantities[sku] !== 0) {
-          try {
-            const stockData = await checkItemStock(sku);
-            if (stockData.available_stock === "" && stockData.closest_matches.length > 0) {
-              setAlertMessage({
-                title: 'Let op!',
-                message: `${sku} is niet gevonden. Bedoelde je:`,
-                show: true
-              });
-              setClosestMatches(stockData.closest_matches);
-              setPendingSku(sku);
-              setLastProcessedIndex(i);
-              console.log("Item not found", sku)
-              return;
-            } 
-            else if (stockData.available_stock <= 10) {
-              arr = [];
-              Swal.fire({
-                title: 'Onvoldoende voorraad!',
-                text: `${sku} is niet voldoende meer op voorraad.`,
-                icon: 'error',  
-                confirmButtonText: 'Terug'
-              });
-              return;
-            }
-            arr.push([sku, stockData.ean, stockData.product_id])
-          } catch (error) {
-            // setAlertMessage({
-            //   title: 'Fout!',
-            //   message: `Er is een fout opgetreden bij het ophalen van de voorraad voor ${sku}.`,
-            //   show: true
-            // });
-            Swal.fire({
-              title: 'Oeps...',
-              text: `Er is een fout opgetreden bij het ophalen van de voorraad voor ${sku}.`,
-              icon: 'error',  
-              confirmButtonText: 'Terug'
-            });
-            return;
-          }
-        }
-      }
-      
-      setProgress(prev => Math.min(prev + stepProgress, 100));
-      
-      const documentNumber = await setCSONumber();
-      setProgress(prev => Math.min(prev + stepProgress, 100));
-  
-      const oldBCOrder = await getOldBCOrder(customerData.incrementIdStr);
-      setProgress(prev => Math.min(prev + stepProgress, 100));
-      
-      if(arr.length == 0){
-        // setAlertMessage({
-        //   title: 'Fout!',
-        //   message: `Er is geen item geselecteerd uit de order, probeer het opnieuw.`,
-        //   show: true
-        // });
-        Swal.fire({
-          title: 'Oeps...',
-          text: `Er is geen item geselecteerd uit de order, probeer het opnieuw.`,
-          icon: 'error',  
-          confirmButtonText: 'Terug'
-        });
+      const skusToProcess = Object.keys(props.csoQuantities).filter(
+        (sku) => props.csoQuantities[sku] !== 0
+      );
+      setQueue(skusToProcess);  // Set queue
 
-        // alert(`Er is geen item gevonden in de order, probeer het opnieuw.`)
-        return
-      }
-      createOrderBC(arr, documentNumber, oldBCOrder);
-      props.csoPresent();
-  
-      setProgress(prev => Math.min(prev + stepProgress, 100));
-      LogUser(documentNumber, customerData.incrementIdStr, props.data2.huts.customContext.currentUser.name, props.reason, data.customer.id, arr);
-
-      setProgress(100);
-      
-
-    } finally {
-      setProgress(0);
-      arr = [];
-      setLoading(false);
-  
-
+    } catch (error) {
+      await setOldCSONumber()
+      console.error('Error during CSO creation:', error);
     }
   };
-  
+
+  // Effect to process queue after it's updated
+  useEffect(() => {
+    const totalSteps = 5;
+    const stepProgress = 100 / totalSteps;
+    if (queue.length > 0) {
+      const processQueue = async () => {
+
+        for (let i = lastProcessedIndex; i < queue.length; i++) {
+          let sku = queue[i];
+
+          if (props.csoQuantities[sku] !== 0) {
+            try {
+              const stockData = await checkItemStock(sku);
+
+              if (stockData.available_stock === "" && stockData.closest_matches.length > 0) {
+                setAlertMessage({
+                  title: 'Let op!',
+                  message: `${sku} is niet gevonden. Bedoelde je:`,
+                  show: true
+                });
+                setClosestMatches(stockData.closest_matches);
+                setPendingSku(sku);
+                setLastProcessedIndex(i);
+                return;
+              } else if (stockData.available_stock <= 10) {
+                arr = [];
+                Swal.fire({
+                  title: 'Onvoldoende voorraad!',
+                  text: `${sku} is niet voldoende meer op voorraad.`,
+                  icon: 'error',
+                  confirmButtonText: 'Terug',
+                  position: "center"
+                });
+                setQueue([])
+                return;
+              }
+
+              arr.push([sku, stockData.ean, stockData.product_id]);
+            } catch (error) {
+              Swal.fire({
+                title: 'Oeps...',
+                text: `Er is een fout opgetreden bij het ophalen van de voorraad voor ${sku}.`,
+                icon: 'error',
+                confirmButtonText: 'Terug',
+                position: "center"
+              });
+              setQueue([])
+              return;
+            }
+          }
+        }
+
+        setProgress((prev) => Math.min(prev + stepProgress, 100));
+
+        // Further processing (like creating CSO, updating state, etc.)
+        const documentNumber = await setCSONumber();
+        setProgress((prev) => Math.min(prev + stepProgress, 100));
+
+        const oldBCOrder = await getOldBCOrder(customerData.incrementIdStr);
+
+        console.log("OLD BC", oldBCOrder)
+        setProgress((prev) => Math.min(prev + stepProgress, 100));
+
+        if (arr.length === 0){
+          Swal.fire({
+            title: 'Oeps...',
+            text: `Er is geen item geselecteerd uit de order, probeer het opnieuw.`,
+            icon: 'error',
+            confirmButtonText: 'Terug',
+            position: "center"
+          });
+          setQueue([]);
+          await setOldCSONumber()
+          return;
+        }
+
+        createOrderBC(arr, documentNumber, oldBCOrder);
+        props.csoPresent();
+
+        setProgress(100);
+        
+        props.setreason()
+        props.setcsoquantities()
+        arr = [];
+        setLoading(false)
+      };
+
+      processQueue();
+    }
+  }, [queue, lastProcessedIndex, props.csoQuantities, customerData]);
 
   const checkItemStock = async (sku) => {
     const myHeaders = new Headers();
@@ -179,11 +199,17 @@ export default function CreateCSO(props) {
       let transformedSkuArray = transformOrderNumber(finalSkus[i][2]);
       // Check if the transformed array has at least 2 elements
       if (transformedSkuArray.length >= 2) {
+        const atelierSkus = [
+          "MJ06486", "MJ06488", "MJ06490", "MJ06485", "MJ06482", 
+          "MJ05579", "MJ10569", "MJ05580", "MJ06483", "MJ06491", "MJ06480"
+        ];
+        const locationCode = atelierSkus.includes(transformedSkuArray[0]) ? "ATELIER" : "MW";
         saleslines.push({
           "lineNo": 10000 + (i * 10000),
-          "no": transformedSkuArray[0],
-          "variantCode": transformedSkuArray[1],
-          "locationCode": "MW",
+          // "no": transformedSkuArray[0],
+          // "variantCode": transformedSkuArray[1],
+          // "locationCode": "MW",
+          "locationCode": locationCode,
           "unitofMeasureCode": "PC",
           "quantity": finalAmount[i],
           "price": 0,
@@ -192,7 +218,7 @@ export default function CreateCSO(props) {
           "discountAmount": 0,
           "discountPercent": 0,
           // "barcode":"8719743587366"
-          // "barcode": finalSkus[i][1]
+          "barcode": finalSkus[i][1]
         });
       } else {
         console.error(`Invalid SKU transformation for index ${i}:`, transformedSkuArray);
@@ -203,10 +229,10 @@ export default function CreateCSO(props) {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", process.env.REACT_APP_CSO_TOKEN_DEV);
     
-    const customerNo = {"NL":["K-000001", "Magento B2C NL (Nederland))"], "BE":["K-001019", "Magento B2C (BE) België"], 
-      "BG":["K-001407", "Magento B2C BG (Bulgarije)"], "CZ":["K-001408", "Magento B2C CZ (Tjechie)"], "DK":["K-001409", "Magento B2C DK (Denemarken)"], "DE":["K-001410", "Magento B2C DE (Duitsland)"], "EE":["K-001411", "Magento B2C EE (Estalnd)"], "IE":["K-001412", "Magento B2C IE (Ierland)"], "GR":["K-001413", "Magento B2C EL (Griekenland)"], "ES":["K-001414", "Magento B2C ES (Spanje)"], "FR":["K-001415", "Magento B2C FR (Frankrijk)"], "HR":["K-001416", "Magento B2C HR (Kroatie)"], "IT":["K-001417", "Magento B2C IT (Italie)"], "CY":["K-001418", "Magento B2C CY (Cyprus)"], 
-      "LV":["K-001419", "Magento B2C LV (Letland)"], "LT":["K-001420", "Magento B2C HU (Lithouwen)"], "HU":["K-001421", "Magento B2C HU (Hongarije)"], "MT":["K-001422", "Magento B2C MT (Malta)"], "AT":["K-001423", "Magento B2C AT (Oostenrijk)"], "PL":["K-001424", "Magento B2C PL (Polen)"], "PT":["K-001425", "Magento B2C PT (Portugal)"], "RO":["K-001426", "Magento B2C RO (Roemenie)"], "SI":["K-001427", "Magento B2C SI (Slovenie)"], "FI":["K-001428", "Magento B2C FI (Finland)"], "SE":["K-001429", "Magento B2C SE (Zweden)"], 
-      "GB":["K-001430", "Magento B2C Niet EU UK (Verenigd Koninkrijk)"], "NO":["K-001431", "Magento B2C Niet EU NO (Noorwegen)"], "CH":["K-001432", "Magento B2C Niet EU CH Zwitserland)"], "TR":["K-001433", "Magento B2C Niet EU TR (Turkije)"], "LU":["K-001675", "Magento B2C LU (Luxemburg)"]}
+    // const customerNo = {"NL":["K-000001", "Magento B2C NL (Nederland))"], "BE":["K-001019", "Magento B2C (BE) België"], 
+    //   "BG":["K-001407", "Magento B2C BG (Bulgarije)"], "CZ":["K-001408", "Magento B2C CZ (Tjechie)"], "DK":["K-001409", "Magento B2C DK (Denemarken)"], "DE":["K-001410", "Magento B2C DE (Duitsland)"], "EE":["K-001411", "Magento B2C EE (Estalnd)"], "IE":["K-001412", "Magento B2C IE (Ierland)"], "GR":["K-001413", "Magento B2C EL (Griekenland)"], "ES":["K-001414", "Magento B2C ES (Spanje)"], "FR":["K-001415", "Magento B2C FR (Frankrijk)"], "HR":["K-001416", "Magento B2C HR (Kroatie)"], "IT":["K-001417", "Magento B2C IT (Italie)"], "CY":["K-001418", "Magento B2C CY (Cyprus)"], 
+    //   "LV":["K-001419", "Magento B2C LV (Letland)"], "LT":["K-001420", "Magento B2C HU (Lithouwen)"], "HU":["K-001421", "Magento B2C HU (Hongarije)"], "MT":["K-001422", "Magento B2C MT (Malta)"], "AT":["K-001423", "Magento B2C AT (Oostenrijk)"], "PL":["K-001424", "Magento B2C PL (Polen)"], "PT":["K-001425", "Magento B2C PT (Portugal)"], "RO":["K-001426", "Magento B2C RO (Roemenie)"], "SI":["K-001427", "Magento B2C SI (Slovenie)"], "FI":["K-001428", "Magento B2C FI (Finland)"], "SE":["K-001429", "Magento B2C SE (Zweden)"], 
+    //   "GB":["K-001430", "Magento B2C Niet EU UK (Verenigd Koninkrijk)"], "NO":["K-001431", "Magento B2C Niet EU NO (Noorwegen)"], "CH":["K-001432", "Magento B2C Niet EU CH Zwitserland)"], "TR":["K-001433", "Magento B2C Niet EU TR (Turkije)"], "LU":["K-001675", "Magento B2C LU (Luxemburg)"]}
 
 
     const raw = JSON.stringify({
@@ -252,7 +278,7 @@ export default function CreateCSO(props) {
     });
 
 
-    const url = new URL(process.env.REACT_APP_CSO_URL_DEV);
+  const url = new URL(process.env.REACT_APP_CSO_URL_DEV);
   url.searchParams.append('tenant', 'operations');
 
   try {
@@ -269,30 +295,62 @@ export default function CreateCSO(props) {
     // Check if there is an error in the result
     if (!result.error) {
       let skusList = finalSkus.map(item => item[0]).join(', ');
-
+      LogUser(documentNumber, customerData.incrementIdStr, props.data2.huts.customContext.currentUser.name, props.reason, data.customer.id, finalSkus);
       Swal.fire({
         title: 'Gelukt!',
         text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${skusList}`,
         icon: 'success',
-        confirmButtonText: 'Verder'
+        confirmButtonText: 'Verder',
+        position: "center",
+        showCancelButton: true,
+        cancelButtonText: 'Kopieer nummer',
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          // If the "Kopieer nummer" button is clicked, copy the documentNumber to the clipboard
+          navigator.clipboard.writeText(documentNumber).then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Nummer gekopieerd!',
+              text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${skusList}`,
+              confirmButtonText: 'Ok',
+              position: "center"
+            });
+          }).catch(() => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Fout, het kopieren is mislukt',
+              text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${skusList}`,
+              confirmButtonText: 'Ok',
+              position: "center"
+            });
+          });
+        }
       });
-      // alert(`Gelukt! Er is een CSO aangemaakt met nummer: ${documentNumber}. Voor de items: ${skusList}`);
+      setQueue([]);
     } else {
-      // Error found in result, show error alert
-      // alert(`Er is een fout opgetreden: ${result.error.message}`);
       Swal.fire({
         title: 'Oeps...',
         text: `Er is iets fout gegaan bij het aanmaken van de CSO. ${result.error.message}`,
         icon: 'error',  
-        confirmButtonText: 'Terug'
+        confirmButtonText: 'Terug',
+        position: "center"
       });
+      await setOldCSONumber()
+      setQueue([]);
 
     }
   
   } catch (error) {
     // Handle any network or other errors
+    await setOldCSONumber()
     console.error('Error creating CSO:', error);
-    alert('Er is een fout opgetreden bij het maken van de CSO.');
+    Swal.fire({
+      title: 'Oeps...',
+      text: `Er is iets fout gegaan bij het aanmaken van de CSO.`,
+      icon: 'error',  
+      confirmButtonText: 'Terug',
+      position: "center"
+    });
   }
   
   
@@ -302,7 +360,9 @@ export default function CreateCSO(props) {
     setAlertMessage({ ...alertMessage, show: false });
     setClosestMatches([]);  // Clear closest matches after selection
     // Continue processing with the selected SKU
-    createCSO(selectedSku);
+    // createCSO(selectedSku);
+    removeFirstItemFromQueue()
+    addItemQueue(selectedSku)
   };
 
   const handleCloseAlert = () => {
@@ -313,20 +373,22 @@ export default function CreateCSO(props) {
   const url = new URL(process.env.REACT_APP_CSO_URL_DEV);
   return (
     <div>
-{ loading && (           <div style={{ width: '100%', backgroundColor: '#f3f3f3', borderRadius: '4px', margin: '10px 0' }}>
-  <div
-    style={{
-      width: `${progress}%`,
-      backgroundColor: '#4caf50',
-      height: '10px',
-      borderRadius: '4px',
-      transition: 'width 0.3s ease-in-out',
-    }}
-  />
-</div>)}
-      {url.href.includes("DEV") && (
-        <div>Let Op: Je maakt nu een order aan op DEV</div>
-      )}
+    {loading && (
+      <div style={{ width: '100%', backgroundColor: '#f3f3f3', borderRadius: '4px', margin: '10px 0' }}>
+        <div
+          style={{
+            width: `${progress}%`,
+            backgroundColor: '#4caf50',
+            height: '10px',
+            borderRadius: '4px',
+            transition: 'width 0.3s ease-in-out',
+          }}
+        />
+    </div>)}
+
+    {url.href.includes("DEV") && (
+      <div>Let Op: Je maakt nu een order aan op DEV</div>
+    )}
       <button
         onClick={() => createCSO()}
         id='csoSendButton'

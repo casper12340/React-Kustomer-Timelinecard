@@ -139,8 +139,9 @@ const statusMap = {
                 style={{ fontSize: '16px', padding: '10px', borderRadius: '4px', width: '100%' }}  // Optional: Adds space between select and error message
               >
                 <option value="" disabled>Selecteer een reden</option>
-                <option value="G_KAPOT">Item is kapotgegaan tijdens gebruik</option>
+                <option value="G_KAPOT">Kapot tijdens gebruik</option>
                 <option value="G_PRODFOUT">Item bevat een productiefout</option>
+                <option value="G_GEKROMP">Item is gekrompen na gebruik</option>
                 <option value="G_VRKLEURD">Item is verkleurd</option>
                 <option value="SYS_BC">Order niet doorgekomen BC</option>
                 <option value="SYS_MAG">Order niet doorgekomen Magento</option>
@@ -164,7 +165,7 @@ const statusMap = {
             {cso &&
               <div className='center'>
                 
-                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2} reason={selectedReason}/>
+                <CreateCSO csoQuantities={csoQuantities} csoPresent={csoPresent} data2={props.data2} reason={selectedReason} setreason={setSelectedReason} setcsoquantities={setCsoQuantities} />
               </div>}
 
             <div id='smallMarginBottomAndTop' style={{ textAlign: 'right' }}>

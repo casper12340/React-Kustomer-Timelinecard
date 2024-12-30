@@ -9,7 +9,6 @@ export default function BasicInfo(props) {
   let kobject = props.data2.huts.customContext.kobject
   let state = kobject.custom.statusStr;
   if (props.paazlUrl && state === 'processing') {
-     // Set status to 'shipped'
       state = 'shipped';
   }
   if (props.delivered && (state === "Shipped" || state === "shipped")){
