@@ -13,6 +13,7 @@ import ReturnRequest from './6. Return Request/Return Request Tab';
 
 export default function Tabs(props) {   
     let kobject = props.data2.huts.customContext.kobject
+    console.log("Data", props.data2)
     let state = kobject.custom.statusStr;
     if (props.paazlUrl && state === 'processing') {
        // Set status to 'shipped'

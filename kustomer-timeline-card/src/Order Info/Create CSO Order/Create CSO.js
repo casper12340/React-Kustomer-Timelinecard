@@ -234,7 +234,6 @@ export default function CreateCSO(props) {
     //   "LV":["K-001419", "Magento B2C LV (Letland)"], "LT":["K-001420", "Magento B2C HU (Lithouwen)"], "HU":["K-001421", "Magento B2C HU (Hongarije)"], "MT":["K-001422", "Magento B2C MT (Malta)"], "AT":["K-001423", "Magento B2C AT (Oostenrijk)"], "PL":["K-001424", "Magento B2C PL (Polen)"], "PT":["K-001425", "Magento B2C PT (Portugal)"], "RO":["K-001426", "Magento B2C RO (Roemenie)"], "SI":["K-001427", "Magento B2C SI (Slovenie)"], "FI":["K-001428", "Magento B2C FI (Finland)"], "SE":["K-001429", "Magento B2C SE (Zweden)"], 
     //   "GB":["K-001430", "Magento B2C Niet EU UK (Verenigd Koninkrijk)"], "NO":["K-001431", "Magento B2C Niet EU NO (Noorwegen)"], "CH":["K-001432", "Magento B2C Niet EU CH Zwitserland)"], "TR":["K-001433", "Magento B2C Niet EU TR (Turkije)"], "LU":["K-001675", "Magento B2C LU (Luxemburg)"]}
 
-
     const raw = JSON.stringify({
       "customerNo": oldBCOrder["sellToCustomerNo"],
       "storeNo": "",

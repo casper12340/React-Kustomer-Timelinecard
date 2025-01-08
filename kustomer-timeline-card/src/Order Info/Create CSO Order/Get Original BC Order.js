@@ -14,11 +14,11 @@ export async function getOldBCOrder(orderNumber) {
     
     const urlSalesShipment = new URL((process.env.REACT_APP_BASE_URL_ROOT_DEV + `/salesshipment?$filter=orderNo eq '${orderNumber}'`));
     urlSalesShipment.searchParams.append('tenant', 'operations');
-    console.log("urlSalesShipment", urlSalesShipment);
+
 
     const urlSalesOrders = new URL((process.env.REACT_APP_BASE_URL_ROOT_DEV + `/salesOrders?$filter=no eq '${orderNumber}'`));
     urlSalesOrders.searchParams.append('tenant', 'operations');
-    console.log("urlSalesOrders", urlSalesOrders);
+
     
     try {
         const response = await fetch(urlSalesShipment, requestOptions);
@@ -32,7 +32,8 @@ export async function getOldBCOrder(orderNumber) {
             });
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const result = await response.json(); // Parse the JSON response
+        let result = await response.json(); // Parse the JSON response
+        console.log("Sales Shipment list result", result)
         
         if (!Array.isArray(result["value"]) || result["value"].length === 0) {
             // If order is not found in sales shipment list, then check sales orders list
@@ -47,7 +48,8 @@ export async function getOldBCOrder(orderNumber) {
                 });
                 throw new Error(`HTTP error! Status: ${response.status}`); // Check for HTTP errors
             }
-            const result = await response.json(); // Parse the JSON response
+            result = await response.json(); // Parse the JSON response
+            console.log("Sales order result", result)
             
             if (!Array.isArray(result["value"]) || result["value"].length === 0) {
                 Swal.fire({
@@ -63,6 +65,19 @@ export async function getOldBCOrder(orderNumber) {
             
         }
         console.log("Shipment header", result["value"][0]);
+
+        if (result['value'][0] === undefined){
+            Swal.fire({
+                title: 'Niet gevonden',
+                text: `De originele order is niet gevonden in BC`,
+                icon: 'error',
+                confirmButtonText: 'Terug',
+                position: "center"
+            });
+
+            throw new Error("Error: Original order was not found in BC.");
+        }
+
         return result["value"][0];
     }
     catch (error) {
