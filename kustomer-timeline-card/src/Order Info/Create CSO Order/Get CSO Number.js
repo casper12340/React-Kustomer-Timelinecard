@@ -1,5 +1,6 @@
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../config/firestore';  // Make sure this path is correct
+import Swal from 'sweetalert2';
 
 export const getNumber = async () => {
   try {
@@ -8,7 +9,19 @@ export const getNumber = async () => {
 
     querySnapshot.forEach((doc) => {
       const oldOrderNumber = doc.data().order_number;
-      const numericPart = parseInt(oldOrderNumber.replace('CSO-K', ''), 10);  // Extract numeric part
+      const numericPart = parseInt(oldOrderNumber.replace('CSO25-K', ''), 10);  // Extract numeric part
+      console.log("Numeric part", numericPart)
+      if (isNaN(numericPart)) {
+        Swal.fire({
+          title: 'Oeps...',
+          text: `Er is iets fout gegaan bij het ophalen het ordernummer.`,
+          icon: 'error',
+          confirmButtonText: 'Terug',
+          position: "center"
+        });
+        throw new Error(`Invalid order number format: ${oldOrderNumber}`);  // Throw an error if NaN
+      }
+
       if (numericPart > highestNumber) {
         highestNumber = numericPart;  // Keep track of the highest number
       }
@@ -16,12 +29,19 @@ export const getNumber = async () => {
 
     // Generate the next order number by incrementing the highest number
     const nextNumber = highestNumber + 1;
-    const formattedNextNumber = `CSO-K${String(nextNumber).padStart(6, '0')}`;  // Format with leading zeros
+    const formattedNextNumber = `CSO25-K${String(nextNumber).padStart(5, '0')}`;  // Format with leading zeros
 
     return formattedNextNumber;
 
   } catch (error) {
     console.error("Error getting document:", error);
+    Swal.fire({
+      title: 'Oeps...',
+      text: `Er is iets fout gegaan bij het ophalen het ordernummer.`,
+      icon: 'error',
+      confirmButtonText: 'Terug',
+      position: "center"
+    });
     throw error;
   }
 };
@@ -44,6 +64,13 @@ export default async function setCSONumber() {
 
   } catch (error) {
     console.error("Error setting document:", error);
+    Swal.fire({
+      title: 'Oeps...',
+      text: `Er is iets fout gegaan bij het verzenden van het ordernummer.`,
+      icon: 'error',
+      confirmButtonText: 'Terug',
+      position: "center"
+    });
     throw error;  // Propagate the error for further handling if needed
   }
 }

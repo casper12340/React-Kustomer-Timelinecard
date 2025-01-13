@@ -17,7 +17,8 @@ export default function CreateCSO(props) {
   const [lastProcessedIndex, setLastProcessedIndex] = useState(0);  // Track the last processed index in the loop
   const [pendingSku, setPendingSku] = useState(null); // Track the pending SKU for closest match selection
   const [progress, setProgress] = useState(0); // Initialize progress to 0
-  const [queue, setQueue] = useState([])
+  const [queue, setQueue] = useState([]);
+  const itemsWithAmount = []
 
   const addItemQueue = (item) => {
     setQueue((prevQueue) => [...prevQueue, item]);
@@ -27,7 +28,6 @@ export default function CreateCSO(props) {
     setQueue((prevQueue) => prevQueue.slice(1));
   };
   
-
   const data = props.data2.huts.customContext;
   const customerData = data.kobject.custom;
   
@@ -42,7 +42,7 @@ export default function CreateCSO(props) {
       setQueue(skusToProcess);  // Set queue
 
     } catch (error) {
-      await setOldCSONumber()
+      // await setOldCSONumber()
       console.error('Error during CSO creation:', error);
     }
   };
@@ -119,7 +119,7 @@ export default function CreateCSO(props) {
             position: "center"
           });
           setQueue([]);
-          await setOldCSONumber()
+          // await setOldCSONumber()
           return;
         }
 
@@ -195,13 +195,23 @@ export default function CreateCSO(props) {
     for(let i = 0; i < finalSkus.length; i++){
       console.log("FINAL SKUS", finalSkus)
       console.log("BARCODE", finalSkus[i][1])
+      
+      
+      
+      
+      // appendToLogList(`${finalSkus[i][0]}: ${finalAmount[i]}`)
+
+
+
+
+
       // Transform the SKU and get the resulting array
       let transformedSkuArray = transformOrderNumber(finalSkus[i][2]);
       // Check if the transformed array has at least 2 elements
       if (transformedSkuArray.length >= 2) {
         const atelierSkus = [
-          "MJ06486", "MJ06488", "MJ06490", "MJ06485", "MJ06482", 
-          "MJ05579", "MJ10569", "MJ05580", "MJ06483", "MJ06491", "MJ06480"
+          "MJ06486", "MJ06488", "MJ06490", "MJ06485", "MJ06482", "MJ06476", "MJ06479",
+          "MJ05579", "MJ10569", "MJ05580", "MJ06483", "MJ06491", "MJ06480", "MJ06478", "MJ06473"
         ];
         const locationCode = atelierSkus.includes(transformedSkuArray[0]) ? "ATELIER" : "MW";
         saleslines.push({
@@ -220,6 +230,12 @@ export default function CreateCSO(props) {
           // "barcode":"8719743587366"
           "barcode": finalSkus[i][1]
         });
+        for(let j = 0; j < finalAmount[i]; j++){
+          itemsWithAmount.push(`${finalSkus[i][0]}`)
+        }
+        // itemsWithAmount.push(`${finalSkus[i][0]}: ${finalAmount[i]}`)
+        
+
       } else {
         console.error(`Invalid SKU transformation for index ${i}:`, transformedSkuArray);
       }
@@ -290,14 +306,23 @@ export default function CreateCSO(props) {
   
     const result = await response.json();
     console.log(result);
-  
+    let itemsWithAmountStr
     // Check if there is an error in the result
     if (!result.error) {
-      let skusList = finalSkus.map(item => item[0]).join(', ');
-      LogUser(documentNumber, customerData.incrementIdStr, props.data2.huts.customContext.currentUser.name, props.reason, data.customer.id, finalSkus);
+
+      // Get item
+      if (itemsWithAmount.length > 1){
+        itemsWithAmountStr = itemsWithAmount.map(item => item).join(', ');
+      }
+      else{
+        itemsWithAmountStr = itemsWithAmount[0]
+      }
+      console.log("itemswithamount", itemsWithAmount)
+      console.log("itemsWithAmountStr", itemsWithAmountStr)
+      LogUser(documentNumber, customerData.incrementIdStr, props.data2.huts.customContext.currentUser.name, props.reason, data.customer.id, itemsWithAmount);
       Swal.fire({
         title: 'Gelukt!',
-        text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${skusList}`,
+        text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${itemsWithAmountStr}`,
         icon: 'success',
         confirmButtonText: 'Verder',
         position: "center",
@@ -310,7 +335,7 @@ export default function CreateCSO(props) {
             Swal.fire({
               icon: 'success',
               title: 'Nummer gekopieerd!',
-              text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${skusList}`,
+              text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${itemsWithAmountStr}`,
               confirmButtonText: 'Ok',
               position: "center"
             });
@@ -318,7 +343,7 @@ export default function CreateCSO(props) {
             Swal.fire({
               icon: 'error',
               title: 'Fout, het kopieren is mislukt',
-              text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${skusList}`,
+              text: `Er is een CSO aangemaakt met nummer: ${documentNumber} Voor item(s): ${itemsWithAmountStr}`,
               confirmButtonText: 'Ok',
               position: "center"
             });
@@ -334,14 +359,14 @@ export default function CreateCSO(props) {
         confirmButtonText: 'Terug',
         position: "center"
       });
-      await setOldCSONumber()
+      // await setOldCSONumber()
       setQueue([]);
 
     }
   
   } catch (error) {
     // Handle any network or other errors
-    await setOldCSONumber()
+    // await setOldCSONumber()
     console.error('Error creating CSO:', error);
     Swal.fire({
       title: 'Oeps...',
@@ -386,7 +411,7 @@ export default function CreateCSO(props) {
     </div>)}
 
     {url.href.includes("DEV") && (
-      <div>Let Op: Je maakt nu een order aan op DEV</div>
+      <div style={{color:'red', fontWeight: "700"}}>Let Op: Je maakt nu een order aan op de DEV omgeving!</div>
     )}
       <button
         onClick={() => createCSO()}
