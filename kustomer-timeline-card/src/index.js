@@ -26,6 +26,10 @@ const KustomerComponent = () => {
     // Use the Promise
     kustomerInitializationPromise
       .then((result) => {
+        if (result.customContext.apiKey !== process.env.REACT_APP_KUSTOMER_INSIGHTCARD_TOKEN){
+          throw new Error(`Je hebt geen toegang.`);
+        }
+
         // Handle the resolved value
         console.log('Kustomer initialized with:', result);
         setHuts(result);

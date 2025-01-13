@@ -9,7 +9,7 @@ const App = (props) => {
   // Early return pattern
   const data2 = props.data2;
   if (!data2 || !data2.huts) {
-    return <div>No data available</div>; // Or return null, if you don't want to render anything
+    return <div>Je hebt geen toegang.</div>; // Or return null, if you don't want to render anything
   }
 
   // Extract necessary data from props
