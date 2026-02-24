@@ -16,7 +16,7 @@
     "axios": "^1.7.2",
     "express": "^4.19.2",
     "smb2": "^0.2.11",
-    "snowflake-sdk": "^1.11.0",
+    "snowflake-sdk": "^2.3.4",
     "windows-network-drive": "^4.0.1"
   },
   "devDependencies": {
